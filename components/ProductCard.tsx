@@ -47,7 +47,7 @@ export default function ProductCard({ product }: ProductCardProps) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className="bg-gray-900 rounded-lg overflow-hidden border border-gray-700 hover:border-blue-500 transition-all duration-300 group"
+      className="bg-dark-800 rounded-lg overflow-hidden border border-dark-700 hover:border-neon-blue/50 transition-all duration-300 group"
     >
       {/* Product Image */}
       <div className="relative h-48 overflow-hidden">
@@ -60,7 +60,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           <span className={`px-2 py-1 text-xs font-medium rounded-full ${
             stockLabel === 'Low' ? 'bg-yellow-500 text-yellow-900' :
             stockLabel === 'Limited' ? 'bg-orange-500 text-orange-900' :
-            'bg-green-500 text-green-900'
+            'bg-neon-green text-dark-900'
           }`}>
             {stockLabel}
           </span>
@@ -93,7 +93,7 @@ export default function ProductCard({ product }: ProductCardProps) {
 
         {/* Price */}
         <div className="mb-4">
-          <p className="text-2xl font-bold text-blue-400">
+          <p className="text-2xl font-bold text-neon-blue">
             €{product.price.toFixed(2)}
           </p>
         </div>
@@ -107,7 +107,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             <button
               onClick={() => handleQuantityChange(quantity - 1)}
               disabled={quantity <= 1}
-              className="w-8 h-8 rounded bg-gray-700 text-white hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-8 h-8 rounded bg-dark-700 text-white hover:bg-dark-600 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               -
             </button>
@@ -117,12 +117,12 @@ export default function ProductCard({ product }: ProductCardProps) {
               max={maxQuantity}
               value={quantity}
               onChange={(e) => handleQuantityChange(parseInt(e.target.value) || 1)}
-              className="w-16 h-8 text-center bg-gray-700 text-white rounded border border-gray-600"
+              className="w-16 h-8 text-center bg-dark-700 text-white rounded border border-dark-600"
             />
             <button
               onClick={() => handleQuantityChange(quantity + 1)}
               disabled={quantity >= maxQuantity}
-              className="w-8 h-8 rounded bg-gray-700 text-white hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-8 h-8 rounded bg-dark-700 text-white hover:bg-dark-600 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               +
             </button>
@@ -136,11 +136,11 @@ export default function ProductCard({ product }: ProductCardProps) {
         <button
           onClick={handleAddToCart}
           disabled={product.stock_qty === 0 || isAdding}
-          className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center"
+          className="w-full bg-gradient-to-r from-neon-blue to-neon-green hover:from-neon-green hover:to-neon-blue disabled:bg-dark-600 disabled:cursor-not-allowed text-dark-900 font-medium py-2 px-4 rounded-lg transition-all duration-200 flex items-center justify-center"
         >
           {isAdding ? (
             <div className="flex items-center">
-              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-dark-900 mr-2"></div>
               Adding...
             </div>
           ) : (

@@ -5,6 +5,8 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { Product, filterProducts, sortProducts, paginateProducts } from '@/lib/products'
+import Header from '@/components/Header'
+import Footer from '@/components/Footer'
 import ProductCard from '@/components/ProductCard'
 import VinSearch from '@/components/VinSearch'
 import Pagination from '@/components/Pagination'
@@ -91,170 +93,174 @@ export default function CatalogPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 py-12">
-      <div className="max-w-7xl mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-        >
-          {/* Header */}
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold text-white mb-2">{t('catalog.title')}</h1>
-            <p className="text-gray-400">{t('catalog.subtitle')}</p>
-          </div>
-
-          {/* VIN Search */}
-          <div className="mb-8">
-            <VinSearch />
-          </div>
-
-          {/* Search and Filters */}
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-8">
-            {/* Search */}
-            <div className="lg:col-span-2">
-              <input
-                type="text"
-                placeholder={t('catalog.search')}
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500"
-              />
+    <div className="min-h-screen bg-dark-900">
+      <Header />
+      <main className="pt-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
+            {/* Header */}
+            <div className="mb-8">
+              <h1 className="text-3xl font-bold text-white mb-2">{t('catalog.title')}</h1>
+              <p className="text-gray-400">{t('catalog.subtitle')}</p>
             </div>
 
-            {/* Sort */}
-            <div>
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-500"
-              >
-                <option value="name">{t('catalog.name')}</option>
-                <option value="price-asc">{t('catalog.priceAsc')}</option>
-                <option value="price-desc">{t('catalog.priceDesc')}</option>
-                <option value="rating">{t('catalog.rating')}</option>
-                <option value="reviews">{t('catalog.reviews')}</option>
-                <option value="stock">{t('catalog.stock')}</option>
-              </select>
+            {/* VIN Search */}
+            <div className="mb-8">
+              <VinSearch />
             </div>
 
-            {/* In Stock Filter */}
-            <div className="flex items-center">
-              <label className="flex items-center text-white">
+            {/* Search and Filters */}
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-8">
+              {/* Search */}
+              <div className="lg:col-span-2">
                 <input
-                  type="checkbox"
-                  checked={inStock}
-                  onChange={(e) => setInStock(e.target.checked)}
-                  className="mr-2"
+                  type="text"
+                  placeholder={t('catalog.search')}
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full px-4 py-2 bg-dark-800 border border-dark-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-neon-blue"
                 />
-                {t('catalog.hideOutOfStock')}
-              </label>
+              </div>
+
+              {/* Sort */}
+              <div>
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value)}
+                  className="w-full px-4 py-2 bg-dark-800 border border-dark-600 rounded-lg text-white focus:outline-none focus:border-neon-blue"
+                >
+                  <option value="name">{t('catalog.name')}</option>
+                  <option value="price-asc">{t('catalog.priceAsc')}</option>
+                  <option value="price-desc">{t('catalog.priceDesc')}</option>
+                  <option value="rating">{t('catalog.rating')}</option>
+                  <option value="reviews">{t('catalog.reviews')}</option>
+                  <option value="stock">{t('catalog.stock')}</option>
+                </select>
+              </div>
+
+              {/* In Stock Filter */}
+              <div className="flex items-center">
+                <label className="flex items-center text-white">
+                  <input
+                    type="checkbox"
+                    checked={inStock}
+                    onChange={(e) => setInStock(e.target.checked)}
+                    className="mr-2"
+                  />
+                  {t('catalog.hideOutOfStock')}
+                </label>
+              </div>
             </div>
-          </div>
 
-          {/* Advanced Filters */}
-          <div className="bg-gray-800 rounded-lg p-6 mb-8">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {/* Brand Filter */}
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Brand
-                </label>
-                <select
-                  value={selectedBrand}
-                  onChange={(e) => setSelectedBrand(e.target.value)}
-                  className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
-                >
-                  <option value="">All Brands</option>
-                  {brands.map(brand => (
-                    <option key={brand} value={brand}>{brand}</option>
-                  ))}
-                </select>
-              </div>
+            {/* Advanced Filters */}
+            <div className="bg-dark-800 rounded-lg p-6 mb-8">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {/* Brand Filter */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                    Brand
+                  </label>
+                  <select
+                    value={selectedBrand}
+                    onChange={(e) => setSelectedBrand(e.target.value)}
+                    className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-white focus:outline-none focus:border-neon-blue"
+                  >
+                    <option value="">All Brands</option>
+                    {brands.map(brand => (
+                      <option key={brand} value={brand}>{brand}</option>
+                    ))}
+                  </select>
+                </div>
 
-              {/* Category Filter */}
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Category
-                </label>
-                <select
-                  value={selectedCategory}
-                  onChange={(e) => setSelectedCategory(e.target.value)}
-                  className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
-                >
-                  <option value="">All Categories</option>
-                  {categories.map(category => (
-                    <option key={category} value={category}>{category}</option>
-                  ))}
-                </select>
-              </div>
+                {/* Category Filter */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                    Category
+                  </label>
+                  <select
+                    value={selectedCategory}
+                    onChange={(e) => setSelectedCategory(e.target.value)}
+                    className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-white focus:outline-none focus:border-neon-blue"
+                  >
+                    <option value="">All Categories</option>
+                    {categories.map(category => (
+                      <option key={category} value={category}>{category}</option>
+                    ))}
+                  </select>
+                </div>
 
-              {/* Price Range */}
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Price Range (€)
-                </label>
-                <div className="flex space-x-2">
-                  <input
-                    type="number"
-                    placeholder="Min"
-                    value={priceRange.min}
-                    onChange={(e) => setPriceRange(prev => ({ ...prev, min: Number(e.target.value) }))}
-                    className="flex-1 px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
-                  />
-                  <input
-                    type="number"
-                    placeholder="Max"
-                    value={priceRange.max}
-                    onChange={(e) => setPriceRange(prev => ({ ...prev, max: Number(e.target.value) }))}
-                    className="flex-1 px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
-                  />
+                {/* Price Range */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                    Price Range (€)
+                  </label>
+                  <div className="flex space-x-2">
+                    <input
+                      type="number"
+                      placeholder="Min"
+                      value={priceRange.min}
+                      onChange={(e) => setPriceRange(prev => ({ ...prev, min: Number(e.target.value) }))}
+                      className="flex-1 px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-white focus:outline-none focus:border-neon-blue"
+                    />
+                    <input
+                      type="number"
+                      placeholder="Max"
+                      value={priceRange.max}
+                      onChange={(e) => setPriceRange(prev => ({ ...prev, max: Number(e.target.value) }))}
+                      className="flex-1 px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-white focus:outline-none focus:border-neon-blue"
+                    />
+                  </div>
                 </div>
               </div>
+
+              {/* Clear Filters */}
+              <div className="mt-4">
+                <button
+                  onClick={clearFilters}
+                  className="px-4 py-2 bg-dark-700 hover:bg-dark-600 text-white rounded-lg transition-colors duration-200"
+                >
+                  {t('catalog.clearFilters')}
+                </button>
+              </div>
             </div>
 
-            {/* Clear Filters */}
-            <div className="mt-4">
-              <button
-                onClick={clearFilters}
-                className="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors duration-200"
-              >
-                {t('catalog.clearFilters')}
-              </button>
+            {/* Results Count */}
+            <div className="flex items-center justify-between mb-6">
+              <p className="text-gray-400">
+                {filteredProducts.length} {t('catalog.productsFound')}
+              </p>
             </div>
-          </div>
 
-          {/* Results Count */}
-          <div className="flex items-center justify-between mb-6">
-            <p className="text-gray-400">
-              {filteredProducts.length} {t('catalog.productsFound')}
-            </p>
-          </div>
+            {/* Products Grid */}
+            {currentProducts.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
+                {currentProducts.map((product) => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-12">
+                <p className="text-gray-400 text-lg">{t('catalog.noProducts')}</p>
+              </div>
+            )}
 
-          {/* Products Grid */}
-          {currentProducts.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
-              {currentProducts.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-12">
-              <p className="text-gray-400 text-lg">{t('catalog.noProducts')}</p>
-            </div>
-          )}
-
-          {/* Pagination */}
-          {totalPages > 1 && (
-            <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              totalItems={filteredProducts.length}
-              itemsPerPage={itemsPerPage}
-              onPageChange={handlePageChange}
-            />
-          )}
-        </motion.div>
-      </div>
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                totalItems={filteredProducts.length}
+                itemsPerPage={itemsPerPage}
+                onPageChange={handlePageChange}
+              />
+            )}
+          </motion.div>
+        </div>
+      </main>
+      <Footer />
     </div>
   )
 }

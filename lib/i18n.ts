@@ -70,7 +70,9 @@ export const translations = {
       stock: 'Stock',
       outOfStock: 'Out of Stock',
       lowStock: 'Low Stock',
-      inStock: 'In Stock'
+      inStock: 'In Stock',
+      maxQuantity: 'Max Quantity',
+      addToCart: 'Added to Cart'
     },
     checkout: {
       title: 'Checkout',
@@ -275,7 +277,9 @@ export const translations = {
       stock: 'Stoc',
       outOfStock: 'Stoc Epuizat',
       lowStock: 'Stoc Redus',
-      inStock: 'În Stoc'
+      inStock: 'În Stoc',
+      maxQuantity: 'Cantitate Maximă',
+      addToCart: 'Adaugă în Coș'
     },
     checkout: {
       title: 'Finalizare Comandă',
