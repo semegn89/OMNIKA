@@ -76,34 +76,6 @@ export default function HeroSection() {
             {t('hero.subtitle')}
           </motion.p>
 
-          {/* Hero Images */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.7, duration: 0.8 }}
-            className="flex justify-center items-center space-x-8 py-8"
-          >
-            {/* Car Image */}
-            <div className="relative w-32 h-32 md:w-48 md:h-48 rounded-lg overflow-hidden border-2 border-neon-blue/30">
-              <Image
-                src="/images/hero/hero-car.jpg"
-                alt="Premium European Car"
-                fill
-                className="object-cover"
-              />
-            </div>
-            
-            {/* Parts Image */}
-            <div className="relative w-32 h-32 md:w-48 md:h-48 rounded-lg overflow-hidden border-2 border-neon-green/30">
-              <Image
-                src="/images/hero/hero-parts.jpg"
-                alt="Quality Auto Parts"
-                fill
-                className="object-cover"
-              />
-            </div>
-          </motion.div>
-
           {/* CTA Buttons */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -141,24 +113,47 @@ export default function HeroSection() {
             </Link>
           </motion.div>
 
-          {/* Stats */}
+          {/* Stats with Images */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1, duration: 0.8 }}
-            className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-2xl mx-auto pt-12"
+            className="flex items-center justify-center space-x-8 max-w-4xl mx-auto pt-12"
           >
-            <div className="text-center">
-              <div className="text-3xl font-bold text-neon-blue mb-2">5000+</div>
-              <div className="text-gray-400">Auto Parts</div>
+            {/* Car Image - Left */}
+            <div className="relative w-32 h-20 md:w-40 md:h-24 rounded-lg overflow-hidden border-2 border-neon-blue/30">
+              <Image
+                src="/images/hero/hero-car.jpg"
+                alt="Premium European Car"
+                fill
+                className="object-cover"
+              />
             </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-neon-green mb-2">24/7</div>
-              <div className="text-gray-400">Support</div>
+
+            {/* Stats */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="text-center">
+                <div className="text-3xl font-bold text-neon-blue mb-2">5000+</div>
+                <div className="text-gray-400">Auto Parts</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl font-bold text-neon-green mb-2">24/7</div>
+                <div className="text-gray-400">Support</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl font-bold text-neon-purple mb-2">100%</div>
+                <div className="text-gray-400">Quality</div>
+              </div>
             </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-neon-purple mb-2">100%</div>
-              <div className="text-gray-400">Quality</div>
+
+            {/* Parts Image - Right */}
+            <div className="relative w-32 h-20 md:w-40 md:h-24 rounded-lg overflow-hidden border-2 border-neon-green/30">
+              <Image
+                src="/images/hero/hero-parts.jpg"
+                alt="Quality Auto Parts"
+                fill
+                className="object-cover"
+              />
             </div>
           </motion.div>
         </motion.div>
