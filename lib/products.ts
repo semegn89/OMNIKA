@@ -1,3 +1,5 @@
+import { getProductImages, getBrandLogo } from './productImages'
+
 export interface Product {
   id: string
   sku: string
@@ -67,13 +69,6 @@ function generateRandomStock(): number {
   return Math.floor(Math.random() * 100) + 1 // 1 to 100
 }
 
-function generateRandomImage(): string {
-  const width = 400
-  const height = 300
-  const randomId = Math.floor(Math.random() * 1000)
-  return `https://via.placeholder.com/${width}x${height}/1e293b/00d4ff?text=Auto+Part+${randomId}`
-}
-
 function generateProductName(brand: string, category: string): string {
   const types = partTypes[category as keyof typeof partTypes] || ['Part']
   const type = types[Math.floor(Math.random() * types.length)]
@@ -95,19 +90,22 @@ export function generateProducts(count: number = 5000): Product[] {
     const name = generateProductName(brand, category)
     const stock_qty = generateRandomStock()
     
+    // Get real images for the product
+    const productImages = getProductImages(category, 3)
+    
     products.push({
       id: `prod_${i + 1}`,
       sku: generateSKU(brand, category, i + 1),
       name,
       price: generateRandomPrice(),
-      image: generateRandomImage(),
+      image: productImages[0], // Main image
       brand,
       model: `${brand} ${Math.floor(Math.random() * 20) + 2000}`,
       category,
       description: `High-quality ${name.toLowerCase()} for ${brand} vehicles. Premium materials and expert craftsmanship.`,
       stock_qty,
       is_active: true, // All products are active by default
-      images: [generateRandomImage(), generateRandomImage()],
+      images: productImages, // All images for the product
       rating: Math.floor(Math.random() * 20) / 10 + 3, // 3.0 to 5.0
       reviews: Math.floor(Math.random() * 500) + 1
     })

@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import { Product } from '@/lib/products'
 import { useCart } from '@/lib/cart'
 import { useLanguage } from '@/contexts/LanguageContext'
+import { placeholderImage } from '@/lib/productImages'
 import toast from 'react-hot-toast'
 
 interface ProductCardProps {
@@ -16,6 +17,7 @@ export default function ProductCard({ product }: ProductCardProps) {
   const { add, canAdd } = useCart()
   const [quantity, setQuantity] = useState(1)
   const [isAdding, setIsAdding] = useState(false)
+  const [imageError, setImageError] = useState(false)
 
   const maxQuantity = Math.min(10, product.stock_qty)
   const stockLabel = getStockLabel(product.stock_qty)
@@ -42,6 +44,12 @@ export default function ProductCard({ product }: ProductCardProps) {
     setQuantity(clampedQuantity)
   }
 
+  const handleImageError = () => {
+    setImageError(true)
+  }
+
+  const displayImage = imageError ? placeholderImage : (product.image || placeholderImage)
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -52,8 +60,9 @@ export default function ProductCard({ product }: ProductCardProps) {
       {/* Product Image */}
       <div className="relative h-48 overflow-hidden">
         <img
-          src={product.images[0] || '/placeholder-product.jpg'}
+          src={displayImage}
           alt={product.name}
+          onError={handleImageError}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
         />
         <div className="absolute top-2 left-2">
@@ -68,6 +77,14 @@ export default function ProductCard({ product }: ProductCardProps) {
         {product.stock_qty === 0 && (
           <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
             <span className="text-white font-medium">{t('cart.outOfStock')}</span>
+          </div>
+        )}
+        {/* Image Gallery Indicator */}
+        {product.images && product.images.length > 1 && (
+          <div className="absolute top-2 right-2">
+            <span className="px-2 py-1 text-xs font-medium rounded-full bg-dark-800/80 text-white">
+              {product.images.length} photos
+            </span>
           </div>
         )}
       </div>
