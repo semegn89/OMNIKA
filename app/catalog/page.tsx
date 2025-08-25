@@ -1,18 +1,31 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { LanguageProvider } from '@/contexts/LanguageContext'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import ProductCard from '@/components/ProductCard'
-import { generateProducts, filterProducts, sortProducts, carBrands, partCategories, Product } from '@/lib/products'
+import VinSearch from '@/components/VinSearch'
+import Pagination from '@/components/Pagination'
+import { generateProducts, filterProducts, sortProducts, paginateProducts, carBrands, partCategories, Product } from '@/lib/products'
 import { Filter, Grid, List, Search, ChevronDown } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import toast from 'react-hot-toast'
 
 export default function CatalogPage() {
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  
   const [products, setProducts] = useState<Product[]>([])
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([])
+  const [paginatedData, setPaginatedData] = useState({
+    products: [] as Product[],
+    total: 0,
+    totalPages: 0,
+    currentPage: 1
+  })
+  
   const [filters, setFilters] = useState({
     brand: '',
     category: '',
@@ -20,16 +33,21 @@ export default function CatalogPage() {
     maxPrice: 10000,
     inStock: false
   })
-  const [sortBy, setSortBy] = useState<'price-asc' | 'price-desc' | 'rating' | 'reviews' | 'name'>('price-asc')
+  
+  const [sortBy, setSortBy] = useState<'price-asc' | 'price-desc' | 'rating' | 'reviews' | 'name' | 'stock'>('price-asc')
   const [searchTerm, setSearchTerm] = useState('')
   const [showFilters, setShowFilters] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
+  const [cartItems, setCartItems] = useState<Array<{ product: Product, quantity: number }>>([])
+
+  // Get URL parameters
+  const currentPage = parseInt(searchParams.get('page') || '1')
+  const limit = parseInt(searchParams.get('limit') || '50')
 
   useEffect(() => {
     // Generate products on component mount
     const generatedProducts = generateProducts(5000)
     setProducts(generatedProducts)
-    setFilteredProducts(generatedProducts)
     setIsLoading(false)
   }, [])
 
@@ -42,7 +60,8 @@ export default function CatalogPage() {
       filtered = filtered.filter(product =>
         product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         product.brand.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        product.category.toLowerCase().includes(searchTerm.toLowerCase())
+        product.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        product.sku.toLowerCase().includes(searchTerm.toLowerCase())
       )
     }
 
@@ -55,14 +74,40 @@ export default function CatalogPage() {
     setFilteredProducts(filtered)
   }, [products, filters, sortBy, searchTerm])
 
-  const handleAddToCart = (product: Product) => {
-    toast.success(`${product.name} added to cart!`)
-    // Here you would typically add to cart state/context
+  useEffect(() => {
+    // Apply pagination
+    const paginated = paginateProducts(filteredProducts, currentPage, limit)
+    setPaginatedData(paginated)
+  }, [filteredProducts, currentPage, limit])
+
+  const handleAddToCart = (product: Product, quantity: number) => {
+    setCartItems(prev => {
+      const existingItem = prev.find(item => item.product.id === product.id)
+      if (existingItem) {
+        return prev.map(item => 
+          item.product.id === product.id 
+            ? { ...item, quantity: item.quantity + quantity }
+            : item
+        )
+      } else {
+        return [...prev, { product, quantity }]
+      }
+    })
   }
 
   const handleAddToFavorites = (product: Product) => {
-    toast.success(`${product.name} added to favorites!`)
-    // Here you would typically add to favorites state/context
+    toast.success(`${product.name} добавлен в избранное!`)
+  }
+
+  const handlePageChange = (page: number) => {
+    const params = new URLSearchParams(searchParams.toString())
+    params.set('page', page.toString())
+    router.push(`/catalog?${params.toString()}`)
+  }
+
+  const handleVinRequest = (request: any) => {
+    console.log('VIN Request:', request)
+    // Here you would typically send to backend
   }
 
   const clearFilters = () => {
@@ -107,6 +152,9 @@ export default function CatalogPage() {
           </section>
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            {/* VIN Search */}
+            <VinSearch onVinRequest={handleVinRequest} />
+
             {/* Search and Filters */}
             <div className="mb-8 space-y-4">
               {/* Search Bar */}
@@ -114,7 +162,7 @@ export default function CatalogPage() {
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
                 <input
                   type="text"
-                  placeholder="Search for parts, brands, or categories..."
+                  placeholder="Search for parts, brands, categories, or SKU..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="w-full pl-10 pr-4 py-3 bg-dark-800 border border-dark-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-neon-blue transition-colors"
@@ -143,10 +191,11 @@ export default function CatalogPage() {
                     <option value="rating">Highest Rated</option>
                     <option value="reviews">Most Reviews</option>
                     <option value="name">Name A-Z</option>
+                    <option value="stock">Stock: High to Low</option>
                   </select>
 
                   <div className="text-gray-400 text-sm">
-                    {filteredProducts.length} products found
+                    {paginatedData.total} products found
                   </div>
                 </div>
               </div>
@@ -242,9 +291,9 @@ export default function CatalogPage() {
             </div>
 
             {/* Products Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
               <AnimatePresence>
-                {filteredProducts.map((product, index) => (
+                {paginatedData.products.map((product, index) => (
                   <motion.div
                     key={product.id}
                     initial={{ opacity: 0, y: 20 }}
@@ -261,8 +310,17 @@ export default function CatalogPage() {
               </AnimatePresence>
             </div>
 
+            {/* Pagination */}
+            <Pagination
+              currentPage={paginatedData.currentPage}
+              totalPages={paginatedData.totalPages}
+              totalItems={paginatedData.total}
+              itemsPerPage={limit}
+              onPageChange={handlePageChange}
+            />
+
             {/* No Results */}
-            {filteredProducts.length === 0 && (
+            {paginatedData.total === 0 && (
               <div className="text-center py-12">
                 <div className="text-gray-400 text-xl mb-4">No products found</div>
                 <button
