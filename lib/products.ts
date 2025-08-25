@@ -132,7 +132,8 @@ export function filterProducts(
     if (filters.category && product.category !== filters.category) return false
     if (filters.minPrice && product.price < filters.minPrice) return false
     if (filters.maxPrice && product.price > filters.maxPrice) return false
-    if (filters.inStock !== undefined && (product.stock_qty > 0) !== filters.inStock) return false
+    // Показываем все товары по умолчанию, фильтр inStock только скрывает товары с нулевым остатком
+    if (filters.inStock && product.stock_qty === 0) return false
     if (filters.isActive !== undefined && product.is_active !== filters.isActive) return false
     return true
   })

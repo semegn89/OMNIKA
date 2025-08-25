@@ -39,7 +39,9 @@ export const translations = {
       addToCart: 'Add to Cart',
       clearFilters: 'Clear All Filters',
       noProducts: 'No products found',
-      clearFiltersButton: 'Clear Filters'
+      clearFiltersButton: 'Clear Filters',
+      availability: 'Availability',
+      hideOutOfStock: 'Hide Out of Stock Items'
     },
     vin: {
       title: 'VIN Search',
@@ -135,7 +137,9 @@ export const translations = {
       addToCart: 'Adaugă în Coș',
       clearFilters: 'Șterge Toate Filtrele',
       noProducts: 'Nu s-au găsit produse',
-      clearFiltersButton: 'Șterge Filtrele'
+      clearFiltersButton: 'Șterge Filtrele',
+      availability: 'Disponibilitate',
+      hideOutOfStock: 'Ascunde Articolele Fără Stoc'
     },
     vin: {
       title: 'Căutare VIN',
