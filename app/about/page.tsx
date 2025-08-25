@@ -58,26 +58,13 @@ export default function AboutPage() {
                     </div>
                   </div>
                 </div>
-                <div className="bg-dark-800 border border-dark-700 rounded-lg p-8">
-                  <div className="text-center">
-                    <div className="w-20 h-20 bg-gradient-to-r from-neon-blue to-neon-green rounded-full flex items-center justify-center mx-auto mb-6">
-                      <Building className="w-10 h-10 text-dark-900" />
-                    </div>
-                    <h3 className="text-white font-bold text-xl mb-4">OMNIKA S.R.L.</h3>
-                    <p className="text-gray-300 mb-6">
-                      Your trusted partner for European auto parts
-                    </p>
-                    <div className="grid grid-cols-2 gap-4 text-center">
-                      <div>
-                        <div className="text-neon-blue font-bold text-2xl">5000+</div>
-                        <div className="text-gray-400 text-sm">Parts Available</div>
-                      </div>
-                      <div>
-                        <div className="text-neon-green font-bold text-2xl">3</div>
-                        <div className="text-gray-400 text-sm">Countries</div>
-                      </div>
-                    </div>
-                  </div>
+                <div className="relative">
+                  <img 
+                    src="/images/about/about-company.jpg" 
+                    alt="OMNIKA Company Office" 
+                    className="w-full h-80 object-cover rounded-lg shadow-2xl"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-dark-900/50 to-transparent rounded-lg"></div>
                 </div>
               </div>
             </motion.section>
@@ -91,9 +78,16 @@ export default function AboutPage() {
             >
               <div className="text-center mb-12">
                 <h2 className="text-3xl font-bold text-white mb-4">How We Work</h2>
-                <p className="text-gray-300 text-lg max-w-2xl mx-auto">
+                <p className="text-gray-300 text-lg max-w-2xl mx-auto mb-8">
                   Simple three-step process to get your auto parts delivered to your doorstep
                 </p>
+                <div className="max-w-2xl mx-auto">
+                  <img 
+                    src="/images/about/about-team.jpg" 
+                    alt="OMNIKA Team" 
+                    className="w-full h-64 object-cover rounded-lg shadow-2xl"
+                  />
+                </div>
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -203,6 +197,14 @@ export default function AboutPage() {
                     welcoming customers from Romania, who will now have access to all our services without borders.
                   </p>
                 </div>
+                
+                <div className="mt-8">
+                  <img 
+                    src="/images/about/about-warehouse.jpg" 
+                    alt="OMNIKA Warehouse" 
+                    className="w-full h-80 object-cover rounded-lg shadow-2xl"
+                  />
+                </div>
               </div>
             </motion.section>
 
@@ -215,10 +217,17 @@ export default function AboutPage() {
             >
               <div className="text-center mb-12">
                 <h2 className="text-3xl font-bold text-white mb-4">Our Mission</h2>
-                <p className="text-gray-300 text-lg max-w-3xl mx-auto">
+                <p className="text-gray-300 text-lg max-w-3xl mx-auto mb-8">
                   We want every car owner in Europe to be able to easily find the right part at a fair price, 
                   pay for it safely and conveniently, and receive delivery directly in their country.
                 </p>
+                <div className="max-w-3xl mx-auto">
+                  <img 
+                    src="/images/about/about-delivery.jpg" 
+                    alt="OMNIKA Delivery Service" 
+                    className="w-full h-64 object-cover rounded-lg shadow-2xl"
+                  />
+                </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
