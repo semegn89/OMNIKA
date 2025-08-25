@@ -57,12 +57,22 @@ export default function CatalogPage() {
   useEffect(() => {
     // Apply filters and sorting
     let filtered = filterProducts(products, {
-      searchTerm,
-      brand: selectedBrand,
-      category: selectedCategory,
-      priceRange,
-      inStock
+      brand: selectedBrand || undefined,
+      category: selectedCategory || undefined,
+      minPrice: priceRange.min || undefined,
+      maxPrice: priceRange.max || undefined,
+      inStock: inStock || undefined
     })
+
+    // Apply search filter
+    if (searchTerm) {
+      filtered = filtered.filter(product =>
+        product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        product.brand.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        product.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        product.sku.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    }
 
     // Apply sorting
     filtered = sortProducts(filtered, sortBy)
@@ -72,8 +82,9 @@ export default function CatalogPage() {
   }, [products, searchTerm, selectedBrand, selectedCategory, priceRange, inStock, sortBy])
 
   // Get current page products
-  const currentProducts = paginateProducts(filteredProducts, currentPage, itemsPerPage)
-  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage)
+  const paginatedData = paginateProducts(filteredProducts, currentPage, itemsPerPage)
+  const currentProducts = paginatedData.products
+  const totalPages = paginatedData.totalPages
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page)
