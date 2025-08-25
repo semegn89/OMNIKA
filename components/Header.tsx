@@ -28,8 +28,8 @@ export default function Header() {
   ]
 
   const languages = [
-    { code: 'en', name: 'English', flag: '🇺🇸' },
-    { code: 'ro', name: 'Română', flag: '🇷🇴' }
+    { code: 'en' as const, name: 'English', flag: '🇺🇸' },
+    { code: 'ro' as const, name: 'Română', flag: '🇷🇴' }
   ]
 
   return (
