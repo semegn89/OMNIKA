@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { useLanguage } from '@/contexts/LanguageContext'
-import { Product, filterProducts, sortProducts, paginateProducts } from '@/lib/products'
+import { Product, filterProducts, sortProducts, paginateProducts, generateProducts } from '@/lib/products'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import ProductCard from '@/components/ProductCard'
@@ -34,23 +34,8 @@ export default function CatalogPage() {
   const categories = [...new Set(products.map(p => p.category))].sort()
 
   useEffect(() => {
-    // Generate products (in real app, this would be an API call)
-    const generatedProducts = Array.from({ length: 200 }, (_, i) => ({
-      id: `product-${i + 1}`,
-      sku: `SKU-${String(i + 1).padStart(6, '0')}`,
-      name: `Auto Part ${i + 1}`,
-      brand: ['Mercedes', 'BMW', 'Audi', 'Volkswagen', 'Porsche'][i % 5],
-      model: ['C-Class', '3 Series', 'A4', 'Golf', '911'][i % 5],
-      category: ['Engine', 'Suspension', 'Brakes', 'Electronics', 'Transmission'][i % 5],
-      description: `High-quality auto part for European cars. Part number ${i + 1}.`,
-      price: Math.floor(Math.random() * 500) + 50,
-      rating: 4 + Math.random(),
-      reviews: Math.floor(Math.random() * 100),
-      stock_qty: Math.floor(Math.random() * 100) + 1,
-      is_active: true,
-      images: [`/api/placeholder/300/200?text=Part+${i + 1}`]
-    }))
-    
+    // Generate products using the function from lib/products.ts
+    const generatedProducts = generateProducts(200)
     setProducts(generatedProducts)
   }, [])
 
