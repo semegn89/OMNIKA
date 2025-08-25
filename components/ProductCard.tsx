@@ -1,211 +1,160 @@
 'use client'
 
 import React, { useState } from 'react'
-import Image from 'next/image'
-import { useLanguage } from '@/contexts/LanguageContext'
-import { Product, getStockLabel } from '@/lib/products'
-import { Star, ShoppingCart, Heart, AlertCircle } from 'lucide-react'
 import { motion } from 'framer-motion'
+import { Product } from '@/lib/products'
+import { useCart } from '@/lib/cart'
+import { useLanguage } from '@/contexts/LanguageContext'
 import toast from 'react-hot-toast'
 
 interface ProductCardProps {
   product: Product
-  onAddToCart: (product: Product, quantity: number) => void
-  onAddToFavorites: (product: Product) => void
 }
 
-export default function ProductCard({ product, onAddToCart, onAddToFavorites }: ProductCardProps) {
+export default function ProductCard({ product }: ProductCardProps) {
   const { t } = useLanguage()
+  const { add, canAdd } = useCart()
   const [quantity, setQuantity] = useState(1)
-  const [isAddingToCart, setIsAddingToCart] = useState(false)
+  const [isAdding, setIsAdding] = useState(false)
 
-  const stockLabel = getStockLabel(product.stock_qty)
   const maxQuantity = Math.min(10, product.stock_qty)
-  const isInStock = product.stock_qty > 0
+  const stockLabel = getStockLabel(product.stock_qty)
 
   const handleAddToCart = async () => {
-    if (!isInStock) {
-      toast.error('Product is out of stock')
+    if (!canAdd(product.sku, quantity)) {
+      toast.error(t('cart.outOfStock'))
       return
     }
 
-    if (quantity > maxQuantity) {
-      toast.error(`Maximum ${maxQuantity} items available for order`)
-      return
+    setIsAdding(true)
+    try {
+      add(product.sku, quantity, product)
+      toast.success(t('cart.addToCart'))
+    } catch (error) {
+      toast.error('Failed to add to cart')
+    } finally {
+      setIsAdding(false)
     }
-
-    setIsAddingToCart(true)
-    
-    // Simulate API call
-    setTimeout(() => {
-      onAddToCart(product, quantity)
-      toast.success(`${product.name} added to cart (${quantity} items)`)
-      setQuantity(1)
-      setIsAddingToCart(false)
-    }, 500)
   }
 
   const handleQuantityChange = (newQuantity: number) => {
-    if (newQuantity >= 1 && newQuantity <= maxQuantity) {
-      setQuantity(newQuantity)
-    }
+    const clampedQuantity = Math.max(1, Math.min(newQuantity, maxQuantity))
+    setQuantity(clampedQuantity)
   }
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      whileHover={{ y: -5 }}
-      className="group relative bg-dark-800 border border-dark-700 rounded-lg overflow-hidden hover:border-neon-blue/50 transition-all duration-300"
+      transition={{ duration: 0.3 }}
+      className="bg-gray-900 rounded-lg overflow-hidden border border-gray-700 hover:border-blue-500 transition-all duration-300 group"
     >
-      {/* Image */}
+      {/* Product Image */}
       <div className="relative h-48 overflow-hidden">
-        <Image
-          src={product.image}
+        <img
+          src={product.images[0] || '/placeholder-product.jpg'}
           alt={product.name}
-          fill
-          className="object-cover group-hover:scale-110 transition-transform duration-300"
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-dark-900/50 to-transparent" />
-        
-        {/* Stock Status */}
-        <div className="absolute top-3 left-3">
-          <span className={`px-2 py-1 rounded-full text-xs font-medium border ${
-            isInStock 
-              ? 'bg-neon-green/20 text-neon-green border-neon-green/30' 
-              : 'bg-red-500/20 text-red-400 border-red-500/30'
+        <div className="absolute top-2 left-2">
+          <span className={`px-2 py-1 text-xs font-medium rounded-full ${
+            stockLabel === 'Low' ? 'bg-yellow-500 text-yellow-900' :
+            stockLabel === 'Limited' ? 'bg-orange-500 text-orange-900' :
+            'bg-green-500 text-green-900'
           }`}>
-            {isInStock ? `In Stock: ${product.stock_qty}` : 'Out of Stock'}
+            {stockLabel}
           </span>
         </div>
-
-        {/* Stock Level Badge */}
-        {isInStock && (
-          <div className="absolute top-3 right-3">
-            <span className={`px-2 py-1 rounded-full text-xs font-medium bg-dark-800/80 border ${
-              stockLabel.color === 'text-red-400' ? 'border-red-500/30 text-red-400' :
-              stockLabel.color === 'text-yellow-400' ? 'border-yellow-500/30 text-yellow-400' :
-              'border-neon-green/30 text-neon-green'
-            }`}>
-              {stockLabel.label}
-            </span>
+        {product.stock_qty === 0 && (
+          <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+            <span className="text-white font-medium">{t('cart.outOfStock')}</span>
           </div>
         )}
+      </div>
 
-        {/* Favorite Button */}
+      {/* Product Info */}
+      <div className="p-4">
+        <div className="mb-2">
+          <h3 className="text-lg font-semibold text-white mb-1 line-clamp-2">
+            {product.name}
+          </h3>
+          <p className="text-sm text-gray-400 mb-1">
+            {product.brand} • {product.model} • {product.category}
+          </p>
+          <p className="text-xs text-gray-500">SKU: {product.sku}</p>
+        </div>
+
+        {/* Stock Info */}
+        <div className="mb-3">
+          <p className="text-sm text-gray-300">
+            {t('cart.stock')}: {product.stock_qty} {t('cart.items')}
+          </p>
+        </div>
+
+        {/* Price */}
+        <div className="mb-4">
+          <p className="text-2xl font-bold text-blue-400">
+            €{product.price.toFixed(2)}
+          </p>
+        </div>
+
+        {/* Quantity Selector */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-300 mb-2">
+            {t('cart.quantity')}:
+          </label>
+          <div className="flex items-center space-x-2">
+            <button
+              onClick={() => handleQuantityChange(quantity - 1)}
+              disabled={quantity <= 1}
+              className="w-8 h-8 rounded bg-gray-700 text-white hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              -
+            </button>
+            <input
+              type="number"
+              min="1"
+              max={maxQuantity}
+              value={quantity}
+              onChange={(e) => handleQuantityChange(parseInt(e.target.value) || 1)}
+              className="w-16 h-8 text-center bg-gray-700 text-white rounded border border-gray-600"
+            />
+            <button
+              onClick={() => handleQuantityChange(quantity + 1)}
+              disabled={quantity >= maxQuantity}
+              className="w-8 h-8 rounded bg-gray-700 text-white hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              +
+            </button>
+          </div>
+          <p className="text-xs text-gray-500 mt-1">
+            {t('cart.maxQuantity')}: {maxQuantity}
+          </p>
+        </div>
+
+        {/* Add to Cart Button */}
         <button
-          onClick={() => onAddToFavorites(product)}
-          className="absolute top-12 right-3 p-2 bg-dark-800/80 rounded-full hover:bg-neon-blue/20 transition-colors duration-200"
+          onClick={handleAddToCart}
+          disabled={product.stock_qty === 0 || isAdding}
+          className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center"
         >
-          <Heart size={16} className="text-gray-400 hover:text-red-400 transition-colors" />
-        </button>
-
-        {/* SKU Badge */}
-        <div className="absolute bottom-3 left-3">
-          <span className="px-2 py-1 rounded-full text-xs font-medium bg-dark-800/80 text-gray-300">
-            {product.sku}
-          </span>
-        </div>
-      </div>
-
-      {/* Content */}
-      <div className="p-4 space-y-3">
-        {/* Brand & Category */}
-        <div className="flex items-center justify-between">
-          <span className="text-neon-blue text-sm font-medium">{product.brand}</span>
-          <span className="text-gray-400 text-xs">{product.category}</span>
-        </div>
-
-        {/* Name */}
-        <h3 className="text-white font-semibold text-sm line-clamp-2 group-hover:text-neon-blue transition-colors duration-200">
-          {product.name}
-        </h3>
-
-        {/* Model */}
-        {product.model && (
-          <p className="text-gray-400 text-xs">{product.model}</p>
-        )}
-
-        {/* Rating */}
-        <div className="flex items-center space-x-2">
-          <div className="flex items-center space-x-1">
-            {[...Array(5)].map((_, i) => (
-              <Star
-                key={i}
-                size={12}
-                className={`${
-                  i < Math.floor(product.rating) 
-                    ? 'text-yellow-400 fill-current' 
-                    : 'text-gray-600'
-                }`}
-              />
-            ))}
-          </div>
-          <span className="text-gray-400 text-xs">
-            ({product.reviews} reviews)
-          </span>
-        </div>
-
-        {/* Price and Add to Cart */}
-        <div className="space-y-3">
-          <div className="flex items-center justify-between">
-            <span className="text-2xl font-bold text-white">
-              €{product.price.toLocaleString()}
-            </span>
-            
-            {!isInStock && (
-              <div className="flex items-center space-x-1 text-red-400 text-sm">
-                <AlertCircle size={14} />
-                <span>On Order</span>
-              </div>
-            )}
-          </div>
-
-          {/* Quantity Selector */}
-          {isInStock && (
-            <div className="flex items-center space-x-2">
-              <span className="text-gray-400 text-sm">Quantity:</span>
-              <div className="flex items-center space-x-1">
-                <button
-                  onClick={() => handleQuantityChange(quantity - 1)}
-                  disabled={quantity <= 1}
-                  className="w-6 h-6 bg-dark-700 border border-dark-600 rounded flex items-center justify-center text-white hover:bg-dark-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  -
-                </button>
-                <span className="w-8 text-center text-white font-medium">{quantity}</span>
-                <button
-                  onClick={() => handleQuantityChange(quantity + 1)}
-                  disabled={quantity >= maxQuantity}
-                  className="w-6 h-6 bg-dark-700 border border-dark-600 rounded flex items-center justify-center text-white hover:bg-dark-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  +
-                </button>
-              </div>
-              <span className="text-gray-400 text-xs">max {maxQuantity}</span>
+          {isAdding ? (
+            <div className="flex items-center">
+              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+              Adding...
             </div>
+          ) : (
+            t('cart.addToCart')
           )}
-          
-          {/* Add to Cart Button */}
-          <button
-            onClick={handleAddToCart}
-            disabled={!isInStock || isAddingToCart}
-            className="w-full flex items-center justify-center space-x-2 px-4 py-2 bg-gradient-to-r from-neon-blue to-neon-green text-dark-900 font-medium rounded-lg hover:shadow-lg hover:shadow-neon-blue/25 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {isAddingToCart ? (
-              <div className="w-4 h-4 border-2 border-dark-900 border-t-transparent rounded-full animate-spin" />
-            ) : (
-              <ShoppingCart size={16} />
-            )}
-            <span className="text-sm">
-              {isInStock ? t('catalog.addToCart') : 'On Order'}
-            </span>
-          </button>
-        </div>
+        </button>
       </div>
-
-      {/* Hover Effect */}
-      <div className="absolute inset-0 border-2 border-neon-blue/0 group-hover:border-neon-blue/30 rounded-lg transition-all duration-300 pointer-events-none" />
     </motion.div>
   )
+}
+
+function getStockLabel(stockQty: number): string {
+  if (stockQty === 0) return 'Out of Stock'
+  if (stockQty <= 5) return 'Low'
+  if (stockQty <= 20) return 'Limited'
+  return 'In Stock'
 }

@@ -1,8 +1,13 @@
+import React from 'react'
 import { Product } from './products'
 
 export interface CartItem {
-  product: Product
+  sku: string
+  name: string
+  price: number
   quantity: number
+  image: string
+  stock_qty: number
 }
 
 export interface Cart {
@@ -10,7 +15,7 @@ export interface Cart {
   updatedAt: number
 }
 
-export class CartManager {
+class CartManager {
   private readonly CART_KEY = 'omnika_cart'
   private readonly LAST_ORDER_KEY = 'omnika_last_order'
 
@@ -20,40 +25,50 @@ export class CartManager {
   }
 
   private migrateOldCartData(): void {
-    // Migrate old cart keys
-    const oldKeys = ['cart', 'basket', 'demo_cart', 'shopping_cart']
-    let migratedData: CartItem[] = []
+    if (typeof window === 'undefined') return // Skip during SSR
 
+    const oldKeys = ['cart', 'basket', 'demo_cart', 'shopping_cart']
+    
     oldKeys.forEach(key => {
       try {
         const oldData = localStorage.getItem(key)
         if (oldData) {
           const parsed = JSON.parse(oldData)
-          if (Array.isArray(parsed)) {
-            migratedData = [...migratedData, ...parsed]
-          } else if (parsed.items && Array.isArray(parsed.items)) {
-            migratedData = [...migratedData, ...parsed.items]
+          if (parsed && Array.isArray(parsed)) {
+            // Convert old array format to new format
+            const items = parsed.map((item: any) => ({
+              sku: item.sku || item.id || '',
+              name: item.name || '',
+              price: item.price || 0,
+              quantity: item.quantity || 1,
+              image: item.image || '',
+              stock_qty: item.stock_qty || 1
+            })).filter((item: CartItem) => item.sku && item.name)
+            
+            if (items.length > 0) {
+              const newCart: Cart = {
+                items,
+                updatedAt: Date.now()
+              }
+              localStorage.setItem(this.CART_KEY, JSON.stringify(newCart))
+            }
           }
-          localStorage.removeItem(key) // Clean up old key
+          localStorage.removeItem(key) // Clean up old data
         }
       } catch (error) {
         console.warn(`Failed to migrate cart data from ${key}:`, error)
-        localStorage.removeItem(key) // Clean up invalid data
+        if (typeof window !== 'undefined') {
+          localStorage.removeItem(key) // Clean up invalid data
+        }
       }
     })
-
-    // If we have migrated data, save it to new format
-    if (migratedData.length > 0) {
-      const cart: Cart = {
-        items: migratedData,
-        updatedAt: Date.now()
-      }
-      localStorage.setItem(this.CART_KEY, JSON.stringify(cart))
-    }
   }
 
   private initializeCart(): void {
-    if (!localStorage.getItem(this.CART_KEY)) {
+    if (typeof window === 'undefined') return // Skip during SSR
+
+    const existingCart = localStorage.getItem(this.CART_KEY)
+    if (!existingCart) {
       const emptyCart: Cart = {
         items: [],
         updatedAt: Date.now()
@@ -63,58 +78,82 @@ export class CartManager {
   }
 
   public get(): Cart {
-    try {
-      const cartData = localStorage.getItem(this.CART_KEY)
-      if (!cartData) {
-        return { items: [], updatedAt: Date.now() }
-      }
-      return JSON.parse(cartData)
-    } catch (error) {
-      console.error('Failed to parse cart data:', error)
+    if (typeof window === 'undefined') {
       return { items: [], updatedAt: Date.now() }
     }
+
+    try {
+      const cartData = localStorage.getItem(this.CART_KEY)
+      if (cartData) {
+        return JSON.parse(cartData)
+      }
+    } catch (error) {
+      console.warn('Failed to parse cart data:', error)
+    }
+    
+    return { items: [], updatedAt: Date.now() }
   }
 
   public set(cart: Cart): void {
+    if (typeof window === 'undefined') return
+
     cart.updatedAt = Date.now()
     localStorage.setItem(this.CART_KEY, JSON.stringify(cart))
-    this.dispatchStorageEvent()
+    this.dispatchCartUpdated()
   }
 
-  public add(product: Product, quantity: number = 1): void {
+  public add(sku: string, quantity: number = 1, product?: Product): void {
+    if (typeof window === 'undefined') return
+
     const cart = this.get()
-    const existingItem = cart.items.find(item => item.product.id === product.id)
+    const existingItem = cart.items.find(item => item.sku === sku)
 
     if (existingItem) {
       existingItem.quantity += quantity
-    } else {
-      cart.items.push({ product, quantity })
+      if (product && existingItem.stock_qty < product.stock_qty) {
+        existingItem.stock_qty = product.stock_qty
+      }
+    } else if (product) {
+      cart.items.push({
+        sku: product.sku,
+        name: product.name,
+        price: product.price,
+        quantity,
+        image: product.images[0] || '',
+        stock_qty: product.stock_qty
+      })
     }
 
     this.set(cart)
   }
 
-  public remove(productId: string): void {
+  public remove(sku: string): void {
+    if (typeof window === 'undefined') return
+
     const cart = this.get()
-    cart.items = cart.items.filter(item => item.product.id !== productId)
+    cart.items = cart.items.filter(item => item.sku !== sku)
     this.set(cart)
   }
 
-  public updateQuantity(productId: string, quantity: number): void {
+  public updateQuantity(sku: string, quantity: number): void {
+    if (typeof window === 'undefined') return
+
     const cart = this.get()
-    const item = cart.items.find(item => item.product.id === productId)
+    const item = cart.items.find(item => item.sku === sku)
     
     if (item) {
       if (quantity <= 0) {
-        this.remove(productId)
+        this.remove(sku)
       } else {
-        item.quantity = quantity
+        item.quantity = Math.min(quantity, item.stock_qty)
         this.set(cart)
       }
     }
   }
 
   public clear(): void {
+    if (typeof window === 'undefined') return
+
     const emptyCart: Cart = {
       items: [],
       updatedAt: Date.now()
@@ -129,130 +168,115 @@ export class CartManager {
 
   public total(): number {
     const cart = this.get()
-    return cart.items.reduce((total, item) => {
-      return total + (item.product.price * item.quantity)
-    }, 0)
+    return cart.items.reduce((total, item) => total + (item.price * item.quantity), 0)
   }
 
   public isEmpty(): boolean {
-    return this.get().items.length === 0
-  }
-
-  public getItem(productId: string): CartItem | null {
     const cart = this.get()
-    return cart.items.find(item => item.product.id === productId) || null
+    return cart.items.length === 0
   }
 
-  public hasItem(productId: string): boolean {
-    return this.getItem(productId) !== null
+  public getItem(sku: string): CartItem | undefined {
+    const cart = this.get()
+    return cart.items.find(item => item.sku === sku)
   }
 
-  public getItemQuantity(productId: string): number {
-    const item = this.getItem(productId)
+  public hasItem(sku: string): boolean {
+    return this.getItem(sku) !== undefined
+  }
+
+  public getItemQuantity(sku: string): number {
+    const item = this.getItem(sku)
     return item ? item.quantity : 0
   }
 
-  public canAdd(product: Product, quantity: number = 1): boolean {
-    const currentQuantity = this.getItemQuantity(product.id)
-    const maxQuantity = Math.min(10, product.stock_qty)
-    return (currentQuantity + quantity) <= maxQuantity
+  public canAdd(sku: string, quantity: number = 1): boolean {
+    const item = this.getItem(sku)
+    if (!item) return true // New item can always be added
+    
+    const newTotal = item.quantity + quantity
+    return newTotal <= item.stock_qty
   }
 
   public getLastOrder(): any {
+    if (typeof window === 'undefined') return null
+
     try {
-      const lastOrder = localStorage.getItem(this.LAST_ORDER_KEY)
-      return lastOrder ? JSON.parse(lastOrder) : null
+      const orderData = localStorage.getItem(this.LAST_ORDER_KEY)
+      return orderData ? JSON.parse(orderData) : null
     } catch (error) {
-      console.error('Failed to parse last order:', error)
+      console.warn('Failed to parse last order data:', error)
       return null
     }
   }
 
   public setLastOrder(order: any): void {
+    if (typeof window === 'undefined') return
+
     localStorage.setItem(this.LAST_ORDER_KEY, JSON.stringify(order))
   }
 
-  private dispatchStorageEvent(): void {
-    // Dispatch custom event for other components to listen to
-    if (typeof window !== 'undefined') {
-      window.dispatchEvent(new CustomEvent('cartUpdated', {
-        detail: { cart: this.get() }
-      }))
-    }
-  }
+  private dispatchCartUpdated(): void {
+    if (typeof window === 'undefined') return
 
-  // Listen for storage events from other tabs/windows
-  public subscribe(callback: (cart: Cart) => void): () => void {
-    const handleStorageChange = (event: StorageEvent) => {
-      if (event.key === this.CART_KEY && event.newValue) {
-        try {
-          const cart = JSON.parse(event.newValue)
-          callback(cart)
-        } catch (error) {
-          console.error('Failed to parse cart from storage event:', error)
-        }
-      }
-    }
-
-    const handleCartUpdate = (event: CustomEvent) => {
-      callback(event.detail.cart)
-    }
-
-    window.addEventListener('storage', handleStorageChange)
-    window.addEventListener('cartUpdated', handleCartUpdate as EventListener)
-
-    return () => {
-      window.removeEventListener('storage', handleStorageChange)
-      window.removeEventListener('cartUpdated', handleCartUpdate as EventListener)
-    }
+    window.dispatchEvent(new CustomEvent('cartUpdated', {
+      detail: { cart: this.get() }
+    }))
   }
 }
 
-// Global cart instance
+// Global cart manager instance
 export const cartManager = new CartManager()
 
-// React Hook for cart
+// React hook for cart
 export function useCart() {
   const [cart, setCart] = React.useState<Cart>(cartManager.get())
+  const [cartCount, setCartCount] = React.useState<number>(cartManager.count())
 
   React.useEffect(() => {
-    const unsubscribe = cartManager.subscribe((updatedCart) => {
-      setCart(updatedCart)
-    })
+    const updateCart = () => {
+      const newCart = cartManager.get()
+      setCart(newCart)
+      setCartCount(cartManager.count())
+    }
 
-    return unsubscribe
+    // Listen for cart updates from other tabs/windows
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === cartManager['CART_KEY']) {
+        updateCart()
+      }
+    }
+
+    // Listen for custom cart updated events
+    const handleCartUpdated = () => {
+      updateCart()
+    }
+
+    if (typeof window !== 'undefined') {
+      window.addEventListener('storage', handleStorageChange)
+      window.addEventListener('cartUpdated', handleCartUpdated)
+    }
+
+    return () => {
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('storage', handleStorageChange)
+        window.removeEventListener('cartUpdated', handleCartUpdated)
+      }
+    }
   }, [])
-
-  const addToCart = (product: Product, quantity: number = 1) => {
-    cartManager.add(product, quantity)
-  }
-
-  const removeFromCart = (productId: string) => {
-    cartManager.remove(productId)
-  }
-
-  const updateQuantity = (productId: string, quantity: number) => {
-    cartManager.updateQuantity(productId, quantity)
-  }
-
-  const clearCart = () => {
-    cartManager.clear()
-  }
-
-  const cartCount = cartManager.count()
-  const cartTotal = cartManager.total()
-  const isEmpty = cartManager.isEmpty()
 
   return {
     cart,
     cartCount,
-    cartTotal,
-    isEmpty,
-    addToCart,
-    removeFromCart,
-    updateQuantity,
-    clearCart,
-    canAdd: cartManager.canAdd.bind(cartManager),
-    getItemQuantity: cartManager.getItemQuantity.bind(cartManager)
+    add: cartManager.add.bind(cartManager),
+    remove: cartManager.remove.bind(cartManager),
+    updateQuantity: cartManager.updateQuantity.bind(cartManager),
+    clear: cartManager.clear.bind(cartManager),
+    count: cartManager.count.bind(cartManager),
+    total: cartManager.total.bind(cartManager),
+    isEmpty: cartManager.isEmpty.bind(cartManager),
+    getItem: cartManager.getItem.bind(cartManager),
+    hasItem: cartManager.hasItem.bind(cartManager),
+    canAdd: cartManager.canAdd.bind(cartManager)
   }
 }
