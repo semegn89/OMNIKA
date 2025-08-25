@@ -25,7 +25,7 @@ export default function CatalogPage() {
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedBrand, setSelectedBrand] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('')
-  const [priceRange, setPriceRange] = useState({ min: 0, max: 10000 })
+  const [priceRange, setPriceRange] = useState({ min: 0, max: 1000 })
   const [inStock, setInStock] = useState(false)
   const [sortBy, setSortBy] = useState('name')
 
@@ -35,7 +35,7 @@ export default function CatalogPage() {
 
   useEffect(() => {
     // Generate products using the function from lib/products.ts
-    const generatedProducts = generateProducts(200)
+    const generatedProducts = generateProducts(5000)
     setProducts(generatedProducts)
   }, [])
 
@@ -83,7 +83,7 @@ export default function CatalogPage() {
     setSearchTerm('')
     setSelectedBrand('')
     setSelectedCategory('')
-    setPriceRange({ min: 0, max: 10000 })
+    setPriceRange({ min: 0, max: 1000 })
     setInStock(false)
     setSortBy('name')
   }
@@ -235,7 +235,7 @@ export default function CatalogPage() {
               </div>
 
               {/* Active Filters Display */}
-              {(selectedBrand || selectedCategory || priceRange.min > 0 || priceRange.max < 10000) && (
+              {(selectedBrand || selectedCategory || priceRange.min > 0 || priceRange.max < 1000) && (
                 <div className="mt-6 pt-6 border-t border-dark-600">
                   <div className="flex flex-wrap gap-2">
                     <span className="text-sm text-gray-400">Active filters:</span>
@@ -249,7 +249,7 @@ export default function CatalogPage() {
                         Category: {selectedCategory}
                       </span>
                     )}
-                    {(priceRange.min > 0 || priceRange.max < 10000) && (
+                    {(priceRange.min > 0 || priceRange.max < 1000) && (
                       <span className="px-3 py-1 bg-neon-purple/20 text-neon-purple rounded-full text-sm">
                         Price: €{priceRange.min} - €{priceRange.max}
                       </span>

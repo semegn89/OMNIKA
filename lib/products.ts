@@ -62,7 +62,7 @@ const partTypes = {
 }
 
 function generateRandomPrice(): number {
-  return Math.floor(Math.random() * 9990) + 10 // 10 to 10000 EUR
+  return Math.floor(Math.random() * 990) + 10 // 10 to 1000 EUR (было 10 to 10000)
 }
 
 function generateRandomStock(): number {
