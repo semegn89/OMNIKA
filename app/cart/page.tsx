@@ -77,7 +77,7 @@ export default function CartPage() {
     }
 
     if (newQuantity > maxQuantity) {
-      toast.error(`Доступно к заказу не более ${maxQuantity} шт.`)
+      toast.error(`Maximum ${maxQuantity} items available for order`)
       return
     }
 
@@ -88,12 +88,12 @@ export default function CartPage() {
           : item
       )
     )
-    toast.success('Корзина обновлена!')
+    toast.success('Cart updated!')
   }
 
   const removeItem = (productId: string) => {
     setCartItems(prev => prev.filter(item => item.product.id !== productId))
-    toast.success('Товар удален из корзины!')
+    toast.success('Item removed from cart!')
   }
 
   const getSubtotal = () => {
@@ -110,15 +110,15 @@ export default function CartPage() {
 
   const getStockStatus = (item: CartItem) => {
     if (item.product.stock_qty === 0) {
-      return { status: 'out-of-stock', message: 'Нет в наличии' }
+      return { status: 'out-of-stock', message: 'Out of Stock' }
     }
     if (item.quantity > item.product.stock_qty) {
-      return { status: 'insufficient', message: `Доступно только ${item.product.stock_qty} шт.` }
+      return { status: 'insufficient', message: `Only ${item.product.stock_qty} available` }
     }
     if (item.product.stock_qty <= 5) {
-      return { status: 'low-stock', message: `Осталось ${item.product.stock_qty} шт.` }
+      return { status: 'low-stock', message: `${item.product.stock_qty} left` }
     }
-    return { status: 'in-stock', message: 'В наличии' }
+    return { status: 'in-stock', message: 'In Stock' }
   }
 
   if (isLoading) {

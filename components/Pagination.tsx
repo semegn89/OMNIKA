@@ -58,7 +58,7 @@ export default function Pagination({
     <div className="flex flex-col sm:flex-row items-center justify-between space-y-4 sm:space-y-0">
       {/* Items Info */}
       <div className="text-gray-400 text-sm">
-        Показано {startItem}–{endItem} из {totalItems.toLocaleString()}
+        Showing {startItem}–{endItem} of {totalItems.toLocaleString()}
       </div>
 
       {/* Pagination Controls */}
@@ -70,7 +70,7 @@ export default function Pagination({
           className="flex items-center space-x-1 px-3 py-2 bg-dark-800 border border-dark-600 rounded-lg text-gray-300 hover:text-white hover:border-neon-blue transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <ChevronLeft className="w-4 h-4" />
-          <span className="hidden sm:inline">Назад</span>
+          <span className="hidden sm:inline">Previous</span>
         </button>
 
         {/* Page Numbers */}
@@ -96,7 +96,7 @@ export default function Pagination({
           disabled={currentPage === totalPages}
           className="flex items-center space-x-1 px-3 py-2 bg-dark-800 border border-dark-600 rounded-lg text-gray-300 hover:text-white hover:border-neon-blue transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          <span className="hidden sm:inline">Вперёд</span>
+          <span className="hidden sm:inline">Next</span>
           <ChevronRight className="w-4 h-4" />
         </button>
       </div>

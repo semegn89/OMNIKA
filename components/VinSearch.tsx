@@ -40,13 +40,13 @@ export default function VinSearch({ onVinRequest }: VinSearchProps) {
     // Validate VIN
     const validation = validateVIN(vin)
     if (!validation.isValid) {
-      setVinError(validation.error || 'Неверный формат VIN')
+      setVinError(validation.error || 'Invalid VIN format')
       return
     }
 
     // Validate email or phone
     if (!email && !phone) {
-      toast.error('Укажите email или телефон для связи')
+      toast.error('Please provide email or phone for contact')
       return
     }
 
@@ -64,7 +64,7 @@ export default function VinSearch({ onVinRequest }: VinSearchProps) {
         onVinRequest(vinRequest)
       }
       
-      toast.success('Заявка отправлена успешно!')
+      toast.success('Request submitted successfully!')
       
       // Reset form
       setVin('')
@@ -74,7 +74,7 @@ export default function VinSearch({ onVinRequest }: VinSearchProps) {
       setShowComment(false)
       
     } catch (error) {
-      toast.error('Ошибка при отправке заявки')
+      toast.error('Error submitting request')
     } finally {
       setIsSubmitting(false)
     }
@@ -95,9 +95,9 @@ export default function VinSearch({ onVinRequest }: VinSearchProps) {
         <div className="w-12 h-12 bg-gradient-to-r from-neon-blue to-neon-green rounded-full flex items-center justify-center mx-auto mb-4">
           <Search className="w-6 h-6 text-dark-900" />
         </div>
-        <h2 className="text-2xl font-bold text-white mb-2">Поиск по VIN</h2>
+        <h2 className="text-2xl font-bold text-white mb-2">{t('vin.title')}</h2>
         <p className="text-gray-300 text-sm">
-          Введите VIN (17 символов), мы подберём нужные запчасти. Ответ придёт на e-mail/в личный кабинет.
+          {t('vin.subtitle')}
         </p>
       </div>
 
@@ -108,18 +108,18 @@ export default function VinSearch({ onVinRequest }: VinSearchProps) {
           className="bg-neon-green/20 border border-neon-green/30 rounded-lg p-6 text-center"
         >
           <CheckCircle className="w-12 h-12 text-neon-green mx-auto mb-4" />
-          <h3 className="text-white font-semibold text-lg mb-2">Запрос принят!</h3>
+          <h3 className="text-white font-semibold text-lg mb-2">Request Accepted!</h3>
           <p className="text-gray-300 mb-4">
-            Номер заявки: <span className="text-neon-green font-mono font-bold">{requestId}</span>
+            Request number: <span className="text-neon-green font-mono font-bold">{requestId}</span>
           </p>
           <p className="text-gray-300 text-sm">
-            Ожидайте ответа в течение 1–6 часов в рабочее время.
+            Expect response within 1-6 hours during business hours.
           </p>
           <button
             onClick={() => setIsSubmitted(false)}
             className="mt-4 px-6 py-2 bg-neon-green text-dark-900 font-medium rounded-lg hover:bg-neon-blue transition-colors"
           >
-            Отправить новый запрос
+            Submit New Request
           </button>
         </motion.div>
       ) : (
@@ -127,7 +127,7 @@ export default function VinSearch({ onVinRequest }: VinSearchProps) {
           {/* VIN Input */}
           <div>
             <label htmlFor="vin" className="block text-white font-medium mb-2">
-              VIN номер *
+              VIN Number *
             </label>
             <div className="relative">
               <input
@@ -136,7 +136,7 @@ export default function VinSearch({ onVinRequest }: VinSearchProps) {
                 value={vin}
                 onChange={(e) => handleVinChange(e.target.value)}
                 maxLength={17}
-                placeholder="Введите 17-значный VIN"
+                placeholder="Enter 17-digit VIN"
                 className={`w-full px-4 py-3 pr-12 bg-dark-700 border rounded-lg text-white placeholder-gray-400 focus:outline-none transition-colors ${
                   vinStatus === 'error' 
                     ? 'border-red-500 focus:border-red-500' 
@@ -161,7 +161,7 @@ export default function VinSearch({ onVinRequest }: VinSearchProps) {
               </motion.p>
             )}
             <p className="text-gray-400 text-xs mt-2">
-              VIN должен содержать 17 символов (латинские буквы и цифры, исключая I, O, Q)
+              VIN must contain 17 characters (Latin letters and numbers, excluding I, O, Q)
             </p>
           </div>
 
@@ -182,7 +182,7 @@ export default function VinSearch({ onVinRequest }: VinSearchProps) {
             </div>
             <div>
               <label htmlFor="phone" className="block text-white font-medium mb-2">
-                Телефон
+                Phone
               </label>
               <input
                 type="tel"
@@ -203,7 +203,7 @@ export default function VinSearch({ onVinRequest }: VinSearchProps) {
               className="flex items-center space-x-2 text-neon-blue hover:text-neon-green transition-colors"
             >
               {showComment ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-              <span>Добавить комментарий / прикрепить фото детали</span>
+              <span>Add comment / attach part photo</span>
             </button>
             
             <AnimatePresence>
@@ -217,7 +217,7 @@ export default function VinSearch({ onVinRequest }: VinSearchProps) {
                   <textarea
                     value={comment}
                     onChange={(e) => setComment(e.target.value)}
-                    placeholder="Опишите деталь или укажите дополнительную информацию..."
+                    placeholder="Describe the part or provide additional information..."
                     rows={4}
                     className="w-full px-4 py-3 bg-dark-700 border border-dark-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-neon-blue transition-colors resize-none"
                   />
@@ -235,18 +235,18 @@ export default function VinSearch({ onVinRequest }: VinSearchProps) {
             {isSubmitting ? (
               <>
                 <Loader2 className="w-5 h-5 animate-spin" />
-                <span>Отправка...</span>
+                <span>Submitting...</span>
               </>
             ) : (
               <>
                 <Search className="w-5 h-5" />
-                <span>Подобрать по VIN</span>
+                <span>Find Parts by VIN</span>
               </>
             )}
           </button>
 
           <p className="text-gray-400 text-xs text-center">
-            * Укажите email или телефон для получения ответа
+            * Provide email or phone for response
           </p>
         </form>
       )}

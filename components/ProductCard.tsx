@@ -25,12 +25,12 @@ export default function ProductCard({ product, onAddToCart, onAddToFavorites }: 
 
   const handleAddToCart = async () => {
     if (!isInStock) {
-      toast.error('Товар отсутствует на складе')
+      toast.error('Product is out of stock')
       return
     }
 
     if (quantity > maxQuantity) {
-      toast.error(`Доступно к заказу не более ${maxQuantity} шт.`)
+      toast.error(`Maximum ${maxQuantity} items available for order`)
       return
     }
 
@@ -39,7 +39,7 @@ export default function ProductCard({ product, onAddToCart, onAddToFavorites }: 
     // Simulate API call
     setTimeout(() => {
       onAddToCart(product, quantity)
-      toast.success(`${product.name} добавлен в корзину (${quantity} шт.)`)
+      toast.success(`${product.name} added to cart (${quantity} items)`)
       setQuantity(1)
       setIsAddingToCart(false)
     }, 500)
@@ -49,10 +49,6 @@ export default function ProductCard({ product, onAddToCart, onAddToFavorites }: 
     if (newQuantity >= 1 && newQuantity <= maxQuantity) {
       setQuantity(newQuantity)
     }
-  }
-
-  if (!product.is_active) {
-    return null // Hide inactive products
   }
 
   return (
@@ -79,7 +75,7 @@ export default function ProductCard({ product, onAddToCart, onAddToFavorites }: 
               ? 'bg-neon-green/20 text-neon-green border-neon-green/30' 
               : 'bg-red-500/20 text-red-400 border-red-500/30'
           }`}>
-            {isInStock ? `В наличии: ${product.stock_qty}` : 'Нет в наличии'}
+            {isInStock ? `In Stock: ${product.stock_qty}` : 'Out of Stock'}
           </span>
         </div>
 
@@ -160,7 +156,7 @@ export default function ProductCard({ product, onAddToCart, onAddToFavorites }: 
             {!isInStock && (
               <div className="flex items-center space-x-1 text-red-400 text-sm">
                 <AlertCircle size={14} />
-                <span>Под заказ</span>
+                <span>On Order</span>
               </div>
             )}
           </div>
@@ -168,7 +164,7 @@ export default function ProductCard({ product, onAddToCart, onAddToFavorites }: 
           {/* Quantity Selector */}
           {isInStock && (
             <div className="flex items-center space-x-2">
-              <span className="text-gray-400 text-sm">Количество:</span>
+              <span className="text-gray-400 text-sm">Quantity:</span>
               <div className="flex items-center space-x-1">
                 <button
                   onClick={() => handleQuantityChange(quantity - 1)}
@@ -186,7 +182,7 @@ export default function ProductCard({ product, onAddToCart, onAddToFavorites }: 
                   +
                 </button>
               </div>
-              <span className="text-gray-400 text-xs">макс. {maxQuantity}</span>
+              <span className="text-gray-400 text-xs">max {maxQuantity}</span>
             </div>
           )}
           
@@ -202,7 +198,7 @@ export default function ProductCard({ product, onAddToCart, onAddToFavorites }: 
               <ShoppingCart size={16} />
             )}
             <span className="text-sm">
-              {isInStock ? t('catalog.addToCart') : 'Под заказ'}
+              {isInStock ? t('catalog.addToCart') : 'On Order'}
             </span>
           </button>
         </div>

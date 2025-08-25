@@ -106,7 +106,7 @@ export function generateProducts(count: number = 5000): Product[] {
       category,
       description: `High-quality ${name.toLowerCase()} for ${brand} vehicles. Premium materials and expert craftsmanship.`,
       stock_qty,
-      is_active: stock_qty > 0, // Only active if in stock
+      is_active: true, // All products are active by default
       images: [generateRandomImage(), generateRandomImage()],
       rating: Math.floor(Math.random() * 20) / 10 + 3, // 3.0 to 5.0
       reviews: Math.floor(Math.random() * 500) + 1
@@ -181,13 +181,13 @@ export function paginateProducts(
 
 export function getStockLabel(stock_qty: number): { label: string, color: string } {
   if (stock_qty === 0) {
-    return { label: 'Нет в наличии', color: 'text-red-400' }
+    return { label: 'Out of Stock', color: 'text-red-400' }
   } else if (stock_qty <= 5) {
-    return { label: 'Мало', color: 'text-red-400' }
+    return { label: 'Low', color: 'text-red-400' }
   } else if (stock_qty <= 20) {
-    return { label: 'Ограниченно', color: 'text-yellow-400' }
+    return { label: 'Limited', color: 'text-yellow-400' }
   } else {
-    return { label: 'Много', color: 'text-neon-green' }
+    return { label: 'High', color: 'text-neon-green' }
   }
 }
 
@@ -197,17 +197,17 @@ export function validateVIN(vin: string): { isValid: boolean, error?: string } {
   
   // Check length
   if (cleanVin.length !== 17) {
-    return { isValid: false, error: 'VIN должен содержать ровно 17 символов' }
+    return { isValid: false, error: 'VIN must contain exactly 17 characters' }
   }
   
   // Check for invalid characters (I, O, Q)
   if (/[IOQ]/.test(cleanVin)) {
-    return { isValid: false, error: 'VIN не может содержать буквы I, O, Q' }
+    return { isValid: false, error: 'VIN cannot contain letters I, O, Q' }
   }
   
   // Check for valid characters (only letters and numbers)
   if (!/^[A-HJ-NPR-Z0-9]{17}$/.test(cleanVin)) {
-    return { isValid: false, error: 'VIN может содержать только латинские буквы и цифры' }
+    return { isValid: false, error: 'VIN can only contain Latin letters and numbers' }
   }
   
   return { isValid: true }
