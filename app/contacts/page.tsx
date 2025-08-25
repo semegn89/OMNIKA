@@ -1,255 +1,260 @@
 'use client'
 
 import React, { useState } from 'react'
-import { LanguageProvider } from '@/contexts/LanguageContext'
+import { motion } from 'framer-motion'
+import { useLanguage } from '@/contexts/LanguageContext'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
-import { motion } from 'framer-motion'
-import { MapPin, Phone, Mail, Clock, Send, CheckCircle } from 'lucide-react'
+import { MapPin, Phone, Mail, Clock, Send, MessageSquare } from 'lucide-react'
+import toast from 'react-hot-toast'
+
+interface ContactForm {
+  name: string
+  email: string
+  subject: string
+  message: string
+}
 
 export default function ContactsPage() {
-  const [formData, setFormData] = useState({
+  const { t } = useLanguage()
+  const [form, setForm] = useState<ContactForm>({
     name: '',
     email: '',
+    subject: '',
     message: ''
   })
-  const [isSubmitted, setIsSubmitted] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    // Here you would typically send the form data to your backend
-    console.log('Form submitted:', formData)
-    setIsSubmitted(true)
-    setFormData({ name: '', email: '', message: '' })
-    
-    // Reset submission status after 3 seconds
-    setTimeout(() => setIsSubmitted(false), 3000)
+  const handleInputChange = (field: keyof ContactForm, value: string) => {
+    setForm(prev => ({ ...prev, [field]: value }))
   }
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    })
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+
+    try {
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 2000))
+      toast.success('Message sent successfully! We will get back to you soon.')
+      setForm({ name: '', email: '', subject: '', message: '' })
+    } catch (error) {
+      toast.error('Failed to send message. Please try again.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
-    <LanguageProvider>
-      <div className="min-h-screen bg-dark-900">
-        <Header />
-        
-        <main className="pt-16">
-          {/* Hero Section */}
-          <section className="bg-gradient-to-r from-dark-800 to-dark-900 py-16">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="text-center"
-              >
-                <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-                  Contact Us
-                </h1>
-                <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-                  Get in touch with our team for any questions or support
-                </p>
-              </motion.div>
+    <div className="min-h-screen bg-dark-900">
+      <Header />
+      
+      <main className="pt-16">
+        {/* Hero Section */}
+        <section className="bg-gradient-to-r from-dark-800 to-dark-900 py-16">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center">
+              <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+                {t('contacts.title')}
+              </h1>
+              <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+                {t('contacts.subtitle')}
+              </p>
             </div>
-          </section>
+          </div>
+        </section>
 
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-              {/* Contact Information */}
-              <motion.div
-                initial={{ opacity: 0, x: -30 }}
-                animate={{ opacity: 1, x: 0 }}
-                className="space-y-8"
-              >
-                <div>
-                  <h2 className="text-3xl font-bold text-white mb-6">Get in Touch</h2>
-                  <p className="text-gray-300 leading-relaxed">
-                    We're here to help you find the perfect auto parts for your vehicle. 
-                    Contact us for expert advice, technical support, or any questions about our products.
-                  </p>
-                </div>
-
-                {/* Contact Details */}
-                <div className="space-y-6">
-                  <div className="flex items-start space-x-4">
-                    <div className="w-12 h-12 bg-neon-blue/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                      <MapPin className="w-6 h-6 text-neon-blue" />
-                    </div>
-                    <div>
-                      <h3 className="text-white font-semibold mb-1">Address</h3>
-                      <p className="text-gray-300 text-sm leading-relaxed">
-                        București, Sectorul 2, Sos. Mihai Bravu, Nr. 136, Bloc D20, Scara 2, Etaj 3, Apartament 39, România
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start space-x-4">
-                    <div className="w-12 h-12 bg-neon-green/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                      <Phone className="w-6 h-6 text-neon-green" />
-                    </div>
-                    <div>
-                      <h3 className="text-white font-semibold mb-1">Phone</h3>
-                      <p className="text-gray-300 text-sm">+40 123 456 789</p>
-                      <p className="text-gray-400 text-xs">Monday - Friday, 9:00 AM - 6:00 PM</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start space-x-4">
-                    <div className="w-12 h-12 bg-neon-purple/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                      <Mail className="w-6 h-6 text-neon-purple" />
-                    </div>
-                    <div>
-                      <h3 className="text-white font-semibold mb-1">Email</h3>
-                      <p className="text-gray-300 text-sm">info@omnika.ro</p>
-                      <p className="text-gray-400 text-xs">We respond within 24 hours</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start space-x-4">
-                    <div className="w-12 h-12 bg-neon-blue/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                      <Clock className="w-6 h-6 text-neon-blue" />
-                    </div>
-                    <div>
-                      <h3 className="text-white font-semibold mb-1">Business Hours</h3>
-                      <p className="text-gray-300 text-sm">Monday - Friday: 9:00 AM - 6:00 PM</p>
-                      <p className="text-gray-300 text-sm">Saturday: 10:00 AM - 4:00 PM</p>
-                      <p className="text-gray-300 text-sm">Sunday: Closed</p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Company Information */}
-                <div className="bg-dark-800 border border-dark-700 rounded-lg p-6">
-                  <h3 className="text-white font-semibold mb-4">Company Information</h3>
-                  <div className="space-y-2 text-sm text-gray-300">
-                    <p><span className="text-gray-400">CUI:</span> 52235085</p>
-                    <p><span className="text-gray-400">Registration:</span> J2025056488004</p>
-                    <p><span className="text-gray-400">EUID:</span> ROONRC.J2025056488004</p>
-                    <p><span className="text-gray-400">Bank:</span> Raiffeisen Bank S.A.</p>
-                    <p><span className="text-gray-400">IBAN:</span> RO08RZBR0000060028531926</p>
-                  </div>
-                </div>
-              </motion.div>
-
-              {/* Contact Form */}
-              <motion.div
-                initial={{ opacity: 0, x: 30 }}
-                animate={{ opacity: 1, x: 0 }}
-                className="space-y-6"
-              >
-                <div>
-                  <h2 className="text-3xl font-bold text-white mb-6">Send us a Message</h2>
-                  <p className="text-gray-300">
-                    Fill out the form below and we'll get back to you as soon as possible.
-                  </p>
-                </div>
-
-                {isSubmitted ? (
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    className="bg-neon-green/20 border border-neon-green/30 rounded-lg p-6 text-center"
-                  >
-                    <CheckCircle className="w-12 h-12 text-neon-green mx-auto mb-4" />
-                    <h3 className="text-white font-semibold text-lg mb-2">Message Sent!</h3>
-                    <p className="text-gray-300">
-                      Thank you for contacting us. We'll get back to you within 24 hours.
-                    </p>
-                  </motion.div>
-                ) : (
-                  <form onSubmit={handleSubmit} className="space-y-6">
-                    <div>
-                      <label htmlFor="name" className="block text-white font-medium mb-2">
-                        Name *
-                      </label>
-                      <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        required
-                        className="w-full px-4 py-3 bg-dark-800 border border-dark-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-neon-blue transition-colors"
-                        placeholder="Your full name"
-                      />
-                    </div>
-
-                    <div>
-                      <label htmlFor="email" className="block text-white font-medium mb-2">
-                        Email *
-                      </label>
-                      <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        required
-                        className="w-full px-4 py-3 bg-dark-800 border border-dark-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-neon-blue transition-colors"
-                        placeholder="your.email@example.com"
-                      />
-                    </div>
-
-                    <div>
-                      <label htmlFor="message" className="block text-white font-medium mb-2">
-                        Message *
-                      </label>
-                      <textarea
-                        id="message"
-                        name="message"
-                        value={formData.message}
-                        onChange={handleChange}
-                        required
-                        rows={6}
-                        className="w-full px-4 py-3 bg-dark-800 border border-dark-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-neon-blue transition-colors resize-none"
-                        placeholder="Tell us how we can help you..."
-                      />
-                    </div>
-
-                    <button
-                      type="submit"
-                      className="w-full flex items-center justify-center space-x-2 px-6 py-3 bg-gradient-to-r from-neon-blue to-neon-green text-dark-900 font-bold rounded-lg hover:shadow-lg hover:shadow-neon-blue/25 transition-all duration-300"
-                    >
-                      <Send className="w-5 h-5" />
-                      <span>Send Message</span>
-                    </button>
-                  </form>
-                )}
-              </motion.div>
-            </div>
-
-            {/* Map Section */}
-            <motion.section
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-              className="mt-16"
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            {/* Contact Information */}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="space-y-8"
             >
-              <h2 className="text-3xl font-bold text-white text-center mb-12">Find Us</h2>
-              <div className="bg-dark-800 border border-dark-700 rounded-lg p-8">
-                <div className="aspect-video bg-dark-700 rounded-lg flex items-center justify-center">
-                  <div className="text-center">
-                    <MapPin className="w-16 h-16 text-neon-blue mx-auto mb-4" />
-                    <h3 className="text-white font-semibold text-lg mb-2">Interactive Map</h3>
-                    <p className="text-gray-300 text-sm">
-                      Google Maps integration would be displayed here
+              <div>
+                <h2 className="text-3xl font-bold text-white mb-6">Get in Touch</h2>
+                <p className="text-gray-300 mb-8">
+                  Have questions about our auto parts or need assistance with your order? 
+                  Our team is here to help you with any inquiries.
+                </p>
+              </div>
+
+              {/* Contact Details */}
+              <div className="space-y-6">
+                <div className="flex items-start space-x-4">
+                  <div className="flex-shrink-0">
+                    <MapPin size={24} className="text-neon-blue" />
+                  </div>
+                  <div>
+                    <h3 className="text-white font-semibold mb-2">{t('contacts.address')}</h3>
+                    <p className="text-gray-300">
+                      București, Sectorul 2<br />
+                      Sos. Mihai Bravu, Nr. 136<br />
+                      Bloc D20, Scara 2, Etaj 3<br />
+                      Apartament 39, România
                     </p>
-                    <p className="text-gray-400 text-xs mt-2">
-                      București, Sectorul 2, Sos. Mihai Bravu, Nr. 136
-                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start space-x-4">
+                  <div className="flex-shrink-0">
+                    <Phone size={24} className="text-neon-green" />
+                  </div>
+                  <div>
+                    <h3 className="text-white font-semibold mb-2">{t('contacts.phone')}</h3>
+                    <a 
+                      href="tel:+40316301234" 
+                      className="text-neon-blue hover:text-neon-green transition-colors text-lg font-medium"
+                    >
+                      +40 (31) 630-12-34
+                    </a>
+                    <p className="text-gray-400 text-sm mt-1">Click to call</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start space-x-4">
+                  <div className="flex-shrink-0">
+                    <Mail size={24} className="text-neon-blue" />
+                  </div>
+                  <div>
+                    <h3 className="text-white font-semibold mb-2">{t('contacts.email')}</h3>
+                    <a 
+                      href="mailto:support@omnika.ro" 
+                      className="text-neon-blue hover:text-neon-green transition-colors"
+                    >
+                      support@omnika.ro
+                    </a>
+                  </div>
+                </div>
+
+                <div className="flex items-start space-x-4">
+                  <div className="flex-shrink-0">
+                    <Clock size={24} className="text-neon-green" />
+                  </div>
+                  <div>
+                    <h3 className="text-white font-semibold mb-2">{t('contacts.workingHours')}</h3>
+                    <p className="text-gray-300">{t('contacts.workingHoursText')}</p>
                   </div>
                 </div>
               </div>
-            </motion.section>
-          </div>
-        </main>
 
-        <Footer />
-      </div>
-    </LanguageProvider>
+              {/* Company Info */}
+              <div className="bg-dark-800 border border-dark-600 rounded-lg p-6">
+                <h3 className="text-white font-semibold mb-4">OMNIKA S.R.L.</h3>
+                <div className="space-y-2 text-gray-300 text-sm">
+                  <p><strong>CUI:</strong> RO12345678</p>
+                  <p><strong>Reg. Com.:</strong> J40/1234/2020</p>
+                  <p><strong>Capital Social:</strong> 10.000 RON</p>
+                  <p><strong>Sediu Social:</strong> București, Sectorul 2</p>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Contact Form */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="bg-dark-800 border border-dark-600 rounded-lg p-6"
+            >
+              <h2 className="text-2xl font-bold text-white mb-6">{t('contacts.sendMessage')}</h2>
+              
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div>
+                  <label className="block text-gray-300 mb-2">{t('contacts.name')} *</label>
+                  <input
+                    type="text"
+                    required
+                    value={form.name}
+                    onChange={(e) => handleInputChange('name', e.target.value)}
+                    className="w-full px-4 py-3 bg-dark-700 border border-dark-600 rounded-lg text-white focus:outline-none focus:border-neon-blue"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-gray-300 mb-2">{t('contacts.email')} *</label>
+                  <input
+                    type="email"
+                    required
+                    value={form.email}
+                    onChange={(e) => handleInputChange('email', e.target.value)}
+                    className="w-full px-4 py-3 bg-dark-700 border border-dark-600 rounded-lg text-white focus:outline-none focus:border-neon-blue"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-gray-300 mb-2">{t('contacts.subject')} *</label>
+                  <input
+                    type="text"
+                    required
+                    value={form.subject}
+                    onChange={(e) => handleInputChange('subject', e.target.value)}
+                    className="w-full px-4 py-3 bg-dark-700 border border-dark-600 rounded-lg text-white focus:outline-none focus:border-neon-blue"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-gray-300 mb-2">{t('contacts.message')} *</label>
+                  <textarea
+                    required
+                    rows={5}
+                    value={form.message}
+                    onChange={(e) => handleInputChange('message', e.target.value)}
+                    className="w-full px-4 py-3 bg-dark-700 border border-dark-600 rounded-lg text-white focus:outline-none focus:border-neon-blue resize-none"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full bg-neon-blue text-dark-900 font-semibold py-3 px-6 rounded-lg hover:bg-neon-green transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-dark-900"></div>
+                      <span>Sending...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Send size={20} />
+                      <span>{t('contacts.sendMessage')}</span>
+                    </>
+                  )}
+                </button>
+              </form>
+            </motion.div>
+          </div>
+
+          {/* Map Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="mt-16"
+          >
+            <h2 className="text-3xl font-bold text-white mb-8 text-center">Our Location</h2>
+            <div className="bg-dark-800 border border-dark-600 rounded-lg overflow-hidden">
+              <div id="map" className="w-full h-96">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2848.8444388077937!2d26.1027!3d44.4268!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDTCsDI1JzM2LjQiTiAyNsKwMDYnMDkuNyJF!5e0!3m2!1sen!2sro!4v1234567890"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="OMNIKA S.R.L. Location"
+                />
+              </div>
+            </div>
+            <p className="text-center text-gray-400 mt-4">
+              București, Sectorul 2, Sos. Mihai Bravu, Nr. 136, Bloc D20, Scara 2, Etaj 3, Apartament 39, România
+            </p>
+          </motion.div>
+        </div>
+      </main>
+
+      <Footer />
+    </div>
   )
 }

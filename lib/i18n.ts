@@ -1,27 +1,33 @@
-export const locales = ['en', 'ro'] as const
-export type Locale = typeof locales[number]
+// i18n Configuration
+export const SUPPORTED_LOCALES = ['en', 'ro', 'ru', 'pl', 'de'] as const
+export type Locale = typeof SUPPORTED_LOCALES[number]
 
-export const defaultLocale: Locale = 'en'
+export const DEFAULT_LOCALE: Locale = 'en'
 
+// Fallback locale for missing translations
+export const FALLBACK_LOCALE: Locale = 'en'
+
+// Translations
 export const translations = {
   en: {
     nav: {
       home: 'Home',
-      about: 'About',
-      howItWorks: 'How It Works',
       catalog: 'Catalog',
+      about: 'About Us',
+      howItWorks: 'How It Works',
       promotions: 'Promotions',
       contacts: 'Contacts',
+      cart: 'Cart',
       login: 'Login',
       register: 'Register',
-      cart: 'Cart'
+      profile: 'Profile',
+      logout: 'Logout'
     },
     hero: {
-      title: 'Premium Auto Parts for Every European Brand',
-      subtitle: 'Discover our extensive collection of high-quality automotive parts and accessories',
-      goToCatalog: 'Go to Catalog',
-      promotions: 'Promotions',
-      register: 'Register'
+      title: 'Premium Auto Parts for European Cars',
+      subtitle: 'Find genuine parts for Mercedes, BMW, Audi, Volkswagen and more',
+      cta: 'Browse Catalog',
+      secondaryCta: 'Learn More'
     },
     catalog: {
       title: 'Auto Parts Catalog',
@@ -43,83 +49,187 @@ export const translations = {
       availability: 'Availability',
       hideOutOfStock: 'Hide Out of Stock Items'
     },
-    vin: {
-      title: 'VIN Search',
-      subtitle: 'Enter VIN (17 characters), we\'ll find the right parts. Response will be sent to email/personal account.',
-      vinNumber: 'VIN Number *',
-      vinPlaceholder: 'Enter 17-digit VIN',
-      vinHelp: 'VIN must contain 17 characters (Latin letters and numbers, excluding I, O, Q)',
-      email: 'Email',
-      phone: 'Phone',
-      comment: 'Add comment / attach part photo',
-      commentPlaceholder: 'Describe the part or provide additional information...',
-      submit: 'Find Parts by VIN',
-      submitting: 'Submitting...',
-      success: 'Request submitted successfully!',
-      error: 'Error submitting request',
-      contactRequired: 'Please provide email or phone for contact',
-      requestAccepted: 'Request Accepted!',
-      requestNumber: 'Request number:',
-      responseTime: 'Expect response within 1-6 hours during business hours.',
-      newRequest: 'Submit New Request',
-      contactNote: '* Provide email or phone for response'
-    },
     cart: {
       title: 'Shopping Cart',
-      subtitle: 'Review your items and proceed to checkout',
       empty: 'Your cart is empty',
-      emptySubtitle: 'Add some products to your cart to get started.',
-      browseCatalog: 'Browse Catalog',
-      cartItems: 'Cart Items',
-      orderSummary: 'Order Summary',
+      items: 'items',
       subtotal: 'Subtotal',
       shipping: 'Shipping',
+      tax: 'Tax',
       total: 'Total',
-      free: 'Free',
       checkout: 'Proceed to Checkout',
-      secureCheckout: 'Secure checkout powered by Stripe',
-      cartUpdated: 'Cart updated!',
-      itemRemoved: 'Item removed from cart!',
-      maxQuantity: 'Maximum {max} items available for order',
+      continueShopping: 'Continue Shopping',
+      remove: 'Remove',
+      update: 'Update',
+      clear: 'Clear Cart',
+      quantity: 'Quantity',
+      price: 'Price',
+      stock: 'Stock',
       outOfStock: 'Out of Stock',
-      onlyAvailable: 'Only {qty} available',
-      left: '{qty} left',
+      lowStock: 'Low Stock',
       inStock: 'In Stock'
     },
-    pagination: {
-      showing: 'Showing {start}–{end} of {total}',
-      previous: 'Previous',
-      next: 'Next'
+    checkout: {
+      title: 'Checkout',
+      customerInfo: 'Customer Information',
+      shippingPayment: 'Shipping & Payment',
+      orderSummary: 'Order Summary',
+      fullName: 'Full Name',
+      email: 'Email',
+      phone: 'Phone',
+      country: 'Country',
+      city: 'City',
+      address: 'Address',
+      postalCode: 'Postal Code',
+      shippingMethod: 'Shipping Method',
+      standard: 'Standard (3-5 days)',
+      express: 'Express (1-2 days)',
+      paymentMethod: 'Payment Method',
+      card: 'Credit Card',
+      sepa: 'SEPA Transfer',
+      paypal: 'PayPal',
+      termsAgreement: 'I agree to the Terms & Conditions and Privacy Policy',
+      placeOrder: 'Place Order (Mock)',
+      required: 'This field is required',
+      invalidEmail: 'Please enter a valid email',
+      invalidPhone: 'Please enter a valid phone number'
     },
-    stock: {
-      outOfStock: 'Out of Stock',
-      low: 'Low',
-      limited: 'Limited',
-      high: 'High',
-      inStock: 'In Stock: {qty}',
-      onOrder: 'On Order',
-      quantity: 'Quantity:',
-      max: 'max {qty}'
+    orderConfirmation: {
+      title: 'Order Confirmed!',
+      subtitle: 'Thank you for your order',
+      orderNumber: 'Order Number',
+      estimatedDelivery: 'Estimated Delivery',
+      orderDetails: 'Order Details',
+      continueShopping: 'Continue Shopping'
+    },
+    vin: {
+      title: 'Find Parts by VIN',
+      subtitle: 'Enter your vehicle VIN to get personalized part recommendations',
+      placeholder: 'Enter 17-character VIN',
+      help: 'Enter VIN (17 characters), we will find the right parts. Response will be sent to email/personal account.',
+      submit: 'Find by VIN',
+      success: 'Request accepted, request number:',
+      error: 'Invalid VIN format',
+      comment: 'Add comment / attach photo of the part',
+      commentPlaceholder: 'Additional information about your request...'
+    },
+    pagination: {
+      previous: 'Previous',
+      next: 'Next',
+      showing: 'Showing',
+      of: 'of',
+      items: 'items'
+    },
+    footer: {
+      company: 'OMNIKA S.R.L.',
+      description: 'Premium auto parts for European cars',
+      address: 'București, Sectorul 2, Sos. Mihai Bravu, Nr. 136, Bloc D20, Scara 2, Etaj 3, Apartament 39, România',
+      phone: '+40 (31) 630-12-34',
+      email: 'support@omnika.ro',
+      terms: 'Terms & Conditions',
+      privacy: 'Privacy Policy',
+      copyright: '© 2025 OMNIKA S.R.L. All rights reserved.'
+    },
+    about: {
+      whoWeAre: 'Who We Are',
+      whoWeAreText: 'OMNIKA S.R.L. is a European company that has made buying auto parts as simple and convenient as possible. We have combined experience working with leading European manufacturers and distributors so that every customer can order parts for their car from home - with one click.',
+      howWeWork: 'How We Work',
+      howWeWorkText: '1. You find the right part in our catalog. 2. Pay for it online in any convenient way. 3. We deliver the order to your country - quickly, reliably and transparently. Our customers value OMNIKA because they don\'t need to drive around shops and markets: all parts - from consumables to large units - are available online and always at hand.',
+      whereWeAre: 'Where We Are',
+      whereWeAreText: 'Today OMNIKA actively works in: • Czech Republic • Germany • Poland And now we are opening our official representative office in Romania. For us, this is a new step forward, and we are very much looking forward to customers from Romania, who will now have access to all our services without borders.',
+      ourMission: 'Our Mission',
+      ourMissionText: 'We want every car owner in Europe to be able to: • easily find the right part at a fair price, • pay for it safely and conveniently, • receive delivery directly in their country. OMNIKA is a reliable partner for those who value time, quality and European level of service.',
+      whyChoose: 'Why Choose OMNIKA',
+      whyChooseText: '• Direct partnerships with European manufacturers • Fast delivery across Europe • Quality guarantee on all parts • Professional support team • Competitive prices • Secure payment methods'
+    },
+    contacts: {
+      title: 'Contact Us',
+      subtitle: 'Get in touch with our team',
+      address: 'Address',
+      phone: 'Phone',
+      email: 'Email',
+      workingHours: 'Working Hours',
+      workingHoursText: 'Monday - Friday: 9:00 AM - 6:00 PM (CET)',
+      sendMessage: 'Send Message',
+      name: 'Name',
+      message: 'Message',
+      subject: 'Subject'
+    },
+    profile: {
+      title: 'Personal Account',
+      profile: 'Profile',
+      orders: 'Orders',
+      favorites: 'Favorites',
+      settings: 'Settings',
+      editProfile: 'Edit Profile',
+      saveChanges: 'Save Changes',
+      cancel: 'Cancel',
+      firstName: 'First Name',
+      lastName: 'Last Name',
+      phone: 'Phone',
+      address: 'Address',
+      orderHistory: 'Order History',
+      noOrders: 'No orders yet',
+      orderStatus: 'Order Status',
+      orderDate: 'Order Date',
+      orderTotal: 'Total',
+      status: {
+        pending: 'Pending',
+        processing: 'Processing',
+        shipped: 'Shipped',
+        delivered: 'Delivered',
+        cancelled: 'Cancelled'
+      }
+    },
+    login: {
+      title: 'Login',
+      subtitle: 'Welcome back to OMNIKA',
+      email: 'Email',
+      password: 'Password',
+      login: 'Login',
+      forgotPassword: 'Forgot Password?',
+      noAccount: "Don't have an account?",
+      register: 'Register',
+      showPassword: 'Show Password',
+      hidePassword: 'Hide Password'
+    },
+    register: {
+      title: 'Register',
+      subtitle: 'Create your OMNIKA account',
+      firstName: 'First Name',
+      lastName: 'Last Name',
+      email: 'Email',
+      phone: 'Phone',
+      address: 'Address',
+      password: 'Password',
+      confirmPassword: 'Confirm Password',
+      register: 'Register',
+      haveAccount: 'Already have an account?',
+      login: 'Login',
+      showPassword: 'Show Password',
+      hidePassword: 'Hide Password',
+      passwordsNotMatch: 'Passwords do not match'
     }
   },
   ro: {
     nav: {
       home: 'Acasă',
-      about: 'Despre',
-      howItWorks: 'Cum Funcționează',
       catalog: 'Catalog',
+      about: 'Despre Noi',
+      howItWorks: 'Cum Funcționează',
       promotions: 'Promoții',
       contacts: 'Contacte',
+      cart: 'Coș',
       login: 'Autentificare',
       register: 'Înregistrare',
-      cart: 'Coș'
+      profile: 'Profil',
+      logout: 'Deconectare'
     },
     hero: {
-      title: 'Piese Auto Premium pentru Fiecare Marcă Europeană',
-      subtitle: 'Descoperă colecția noastră extinsă de piese auto de înaltă calitate și accesorii',
-      goToCatalog: 'Mergi la Catalog',
-      promotions: 'Promoții',
-      register: 'Înregistrare'
+      title: 'Piese Auto Premium pentru Mașini Europene',
+      subtitle: 'Găsește piese originale pentru Mercedes, BMW, Audi, Volkswagen și multe altele',
+      cta: 'Vezi Catalogul',
+      secondaryCta: 'Află Mai Multe'
     },
     catalog: {
       title: 'Catalog Piese Auto',
@@ -141,65 +251,309 @@ export const translations = {
       availability: 'Disponibilitate',
       hideOutOfStock: 'Ascunde Articolele Fără Stoc'
     },
-    vin: {
-      title: 'Căutare VIN',
-      subtitle: 'Introdu VIN (17 caractere), vom găsi piesele potrivite. Răspunsul va fi trimis pe email/cont personal.',
-      vinNumber: 'Numărul VIN *',
-      vinPlaceholder: 'Introdu VIN de 17 cifre',
-      vinHelp: 'VIN trebuie să conțină 17 caractere (litere latine și cifre, excluzând I, O, Q)',
-      email: 'Email',
-      phone: 'Telefon',
-      comment: 'Adaugă comentariu / atașează foto piesă',
-      commentPlaceholder: 'Descrie piesa sau furnizează informații suplimentare...',
-      submit: 'Găsește Piese după VIN',
-      submitting: 'Se trimite...',
-      success: 'Cererea a fost trimisă cu succes!',
-      error: 'Eroare la trimiterea cererii',
-      contactRequired: 'Te rugăm să furnizezi email sau telefon pentru contact',
-      requestAccepted: 'Cererea Acceptată!',
-      requestNumber: 'Numărul cererii:',
-      responseTime: 'Așteaptă răspunsul în 1-6 ore în timpul programului de lucru.',
-      newRequest: 'Trimite Cerere Nouă',
-      contactNote: '* Furnizează email sau telefon pentru răspuns'
-    },
     cart: {
-      title: 'Coș de Cumpărături',
-      subtitle: 'Revizuiește articolele și continuă la finalizarea comenzii',
+      title: 'Coșul de Cumpărături',
       empty: 'Coșul tău este gol',
-      emptySubtitle: 'Adaugă câteva produse în coș pentru a începe.',
-      browseCatalog: 'Răsfoiește Catalogul',
-      cartItems: 'Articole în Coș',
-      orderSummary: 'Sumar Comandă',
+      items: 'articole',
       subtotal: 'Subtotal',
       shipping: 'Transport',
+      tax: 'Taxe',
       total: 'Total',
-      free: 'Gratuit',
-      checkout: 'Continuă la Finalizare',
-      secureCheckout: 'Finalizare securizată prin Stripe',
-      cartUpdated: 'Coș actualizat!',
-      itemRemoved: 'Articol eliminat din coș!',
-      maxQuantity: 'Maximum {max} articole disponibile pentru comandă',
+      checkout: 'Finalizează Comanda',
+      continueShopping: 'Continuă Cumpărăturile',
+      remove: 'Elimină',
+      update: 'Actualizează',
+      clear: 'Golește Coșul',
+      quantity: 'Cantitate',
+      price: 'Preț',
+      stock: 'Stoc',
       outOfStock: 'Stoc Epuizat',
-      onlyAvailable: 'Doar {qty} disponibile',
-      left: '{qty} rămase',
+      lowStock: 'Stoc Redus',
       inStock: 'În Stoc'
     },
-    pagination: {
-      showing: 'Se afișează {start}–{end} din {total}',
-      previous: 'Anterior',
-      next: 'Următor'
+    checkout: {
+      title: 'Finalizare Comandă',
+      customerInfo: 'Informații Client',
+      shippingPayment: 'Transport & Plată',
+      orderSummary: 'Sumar Comandă',
+      fullName: 'Nume Complet',
+      email: 'Email',
+      phone: 'Telefon',
+      country: 'Țară',
+      city: 'Oraș',
+      address: 'Adresă',
+      postalCode: 'Cod Poștal',
+      shippingMethod: 'Metodă de Transport',
+      standard: 'Standard (3-5 zile)',
+      express: 'Express (1-2 zile)',
+      paymentMethod: 'Metodă de Plată',
+      card: 'Card de Credit',
+      sepa: 'Transfer SEPA',
+      paypal: 'PayPal',
+      termsAgreement: 'Sunt de acord cu Termenii & Condițiile și Politica de Confidențialitate',
+      placeOrder: 'Plasează Comanda (Mock)',
+      required: 'Acest câmp este obligatoriu',
+      invalidEmail: 'Te rugăm să introduci un email valid',
+      invalidPhone: 'Te rugăm să introduci un număr de telefon valid'
     },
-    stock: {
-      outOfStock: 'Stoc Epuizat',
-      low: 'Puțin',
-      limited: 'Limitat',
-      high: 'Mult',
-      inStock: 'În Stoc: {qty}',
-      onOrder: 'La Comandă',
-      quantity: 'Cantitate:',
-      max: 'max {qty}'
+    orderConfirmation: {
+      title: 'Comandă Confirmată!',
+      subtitle: 'Mulțumim pentru comandă',
+      orderNumber: 'Numărul Comenzii',
+      estimatedDelivery: 'Livrare Estimată',
+      orderDetails: 'Detaliile Comenzii',
+      continueShopping: 'Continuă Cumpărăturile'
+    },
+    vin: {
+      title: 'Găsește Piese după VIN',
+      subtitle: 'Introdu VIN-ul vehiculului pentru recomandări personalizate de piese',
+      placeholder: 'Introdu VIN-ul de 17 caractere',
+      help: 'Introdu VIN (17 caractere), vom găsi piesele potrivite. Răspunsul va fi trimis pe email/contul personal.',
+      submit: 'Găsește după VIN',
+      success: 'Cerere acceptată, numărul cererii:',
+      error: 'Format VIN invalid',
+      comment: 'Adaugă comentariu / atașează fotografia piesei',
+      commentPlaceholder: 'Informații suplimentare despre cererea ta...'
+    },
+    pagination: {
+      previous: 'Anterior',
+      next: 'Următor',
+      showing: 'Se afișează',
+      of: 'din',
+      items: 'articole'
+    },
+    footer: {
+      company: 'OMNIKA S.R.L.',
+      description: 'Piese auto premium pentru mașini europene',
+      address: 'București, Sectorul 2, Sos. Mihai Bravu, Nr. 136, Bloc D20, Scara 2, Etaj 3, Apartament 39, România',
+      phone: '+40 (31) 630-12-34',
+      email: 'support@omnika.ro',
+      terms: 'Termeni & Condiții',
+      privacy: 'Politica de Confidențialitate',
+      copyright: '© 2025 OMNIKA S.R.L. Toate drepturile rezervate.'
+    },
+    about: {
+      whoWeAre: 'Cine Suntem',
+      whoWeAreText: 'OMNIKA S.R.L. este o companie europeană care a făcut cumpărarea pieselor auto cât mai simplă și convenabilă. Am combinat experiența de lucru cu producătorii și distribuitorii de top din Europa, astfel încât fiecare client să poată comanda piese pentru mașina sa de acasă - cu un clic.',
+      howWeWork: 'Cum Lucrăm',
+      howWeWorkText: '1. Găsești piesa potrivită în catalogul nostru. 2. O plătești online în orice mod convenabil. 3. Livrăm comanda în țara ta - rapid, în mod fiabil și transparent. Clienții noștri apreciază OMNIKA pentru că nu trebuie să conducă prin magazine și piețe: toate piesele - de la consumabile la unități mari - sunt disponibile online și întotdeauna la îndemână.',
+      whereWeAre: 'Unde Suntem',
+      whereWeAreText: 'Astăzi OMNIKA lucrează activ în: • Republica Cehă • Germania • Polonia Și acum deschidem reprezentanța noastră oficială în România. Pentru noi, acesta este un pas nou înainte, și așteptăm cu nerăbdare clienții din România, care vor avea acum acces la toate serviciile noastre fără granițe.',
+      ourMission: 'Misiunea Noastră',
+      ourMissionText: 'Vrem ca fiecare proprietar de mașină din Europa să poată: • găsi ușor piesa potrivită la un preț corect, • o plăti în siguranță și convenabil, • primi livrarea direct în țara sa. OMNIKA este un partener de încredere pentru cei care apreciază timpul, calitatea și nivelul european de serviciu.',
+      whyChoose: 'De Ce Să Alegi OMNIKA',
+      whyChooseText: '• Parteneriate directe cu producătorii europeni • Livrare rapidă în toată Europa • Garanția calității pentru toate piesele • Echipă de suport profesională • Prețuri competitive • Metode de plată sigure'
+    },
+    contacts: {
+      title: 'Contactează-ne',
+      subtitle: 'Ia legătura cu echipa noastră',
+      address: 'Adresă',
+      phone: 'Telefon',
+      email: 'Email',
+      workingHours: 'Program de Lucru',
+      workingHoursText: 'Luni - Vineri: 9:00 - 18:00 (CET)',
+      sendMessage: 'Trimite Mesaj',
+      name: 'Nume',
+      message: 'Mesaj',
+      subject: 'Subiect'
+    },
+    profile: {
+      title: 'Cont Personal',
+      profile: 'Profil',
+      orders: 'Comenzi',
+      favorites: 'Favorite',
+      settings: 'Setări',
+      editProfile: 'Editează Profilul',
+      saveChanges: 'Salvează Modificările',
+      cancel: 'Anulează',
+      firstName: 'Prenume',
+      lastName: 'Nume',
+      phone: 'Telefon',
+      address: 'Adresă',
+      orderHistory: 'Istoricul Comenzilor',
+      noOrders: 'Încă nu ai comenzi',
+      orderStatus: 'Statusul Comenzii',
+      orderDate: 'Data Comenzii',
+      orderTotal: 'Total',
+      status: {
+        pending: 'În Așteptare',
+        processing: 'În Procesare',
+        shipped: 'Expediat',
+        delivered: 'Livrat',
+        cancelled: 'Anulat'
+      }
+    },
+    login: {
+      title: 'Autentificare',
+      subtitle: 'Bine ai revenit la OMNIKA',
+      email: 'Email',
+      password: 'Parolă',
+      login: 'Autentificare',
+      forgotPassword: 'Ai uitat parola?',
+      noAccount: 'Nu ai cont?',
+      register: 'Înregistrare',
+      showPassword: 'Arată Parola',
+      hidePassword: 'Ascunde Parola'
+    },
+    register: {
+      title: 'Înregistrare',
+      subtitle: 'Creează-ți contul OMNIKA',
+      firstName: 'Prenume',
+      lastName: 'Nume',
+      email: 'Email',
+      phone: 'Telefon',
+      address: 'Adresă',
+      password: 'Parolă',
+      confirmPassword: 'Confirmă Parola',
+      register: 'Înregistrare',
+      haveAccount: 'Ai deja cont?',
+      login: 'Autentificare',
+      showPassword: 'Arată Parola',
+      hidePassword: 'Ascunde Parola',
+      passwordsNotMatch: 'Parolele nu se potrivesc'
     }
   }
 }
 
-export type TranslationKey = keyof typeof translations.en
+// i18n Manager Class
+export class I18nManager {
+  private currentLocale: Locale
+  private translations: Record<Locale, any>
+  private cacheKey = 'i18n_v1'
+
+  constructor() {
+    this.translations = translations
+    this.currentLocale = this.getInitialLocale()
+    this.init()
+  }
+
+  private getInitialLocale(): Locale {
+    // Try localStorage first
+    const savedLocale = localStorage.getItem('locale') as Locale
+    if (savedLocale && SUPPORTED_LOCALES.includes(savedLocale)) {
+      return savedLocale
+    }
+
+    // Try browser language
+    const browserLang = navigator.language.split('-')[0] as Locale
+    if (SUPPORTED_LOCALES.includes(browserLang)) {
+      return browserLang
+    }
+
+    // Fallback to default
+    return DEFAULT_LOCALE
+  }
+
+  private init(): void {
+    this.setLocale(this.currentLocale)
+    this.updateHtmlLang()
+    this.translatePage()
+  }
+
+  public setLocale(locale: Locale): void {
+    this.currentLocale = locale
+    localStorage.setItem('locale', locale)
+    this.updateHtmlLang()
+    this.translatePage()
+  }
+
+  public getLocale(): Locale {
+    return this.currentLocale
+  }
+
+  public t(key: string): string {
+    const keys = key.split('.')
+    let value = this.translations[this.currentLocale]
+
+    for (const k of keys) {
+      if (value && typeof value === 'object' && k in value) {
+        value = value[k]
+      } else {
+        // Fallback to English
+        value = this.translations[FALLBACK_LOCALE]
+        for (const fallbackKey of keys) {
+          if (value && typeof value === 'object' && fallbackKey in value) {
+            value = value[fallbackKey]
+          } else {
+            return key // Return key if translation not found
+          }
+        }
+        break
+      }
+    }
+
+    return typeof value === 'string' ? value : key
+  }
+
+  private updateHtmlLang(): void {
+    document.documentElement.lang = this.currentLocale
+  }
+
+  private translatePage(): void {
+    const elements = document.querySelectorAll('[data-i18n]')
+    elements.forEach(element => {
+      const key = element.getAttribute('data-i18n')
+      if (key) {
+        const translation = this.t(key)
+        if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+          (element as HTMLInputElement).placeholder = translation
+        } else {
+          element.textContent = translation
+        }
+      }
+    })
+  }
+
+  public updateElement(element: Element): void {
+    const key = element.getAttribute('data-i18n')
+    if (key) {
+      const translation = this.t(key)
+      if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+        (element as HTMLInputElement).placeholder = translation
+      } else {
+        element.textContent = translation
+      }
+    }
+  }
+}
+
+// Global i18n instance
+export const i18n = new I18nManager()
+
+import React from 'react'
+
+// React Hook for i18n
+export function useLanguage() {
+  const [locale, setLocale] = React.useState<Locale>(i18n.getLocale())
+
+  const changeLocale = (newLocale: Locale) => {
+    i18n.setLocale(newLocale)
+    setLocale(newLocale)
+  }
+
+  const t = (key: string) => i18n.t(key)
+
+  return { locale, changeLocale, t }
+}
+
+// Initialize i18n when DOM is ready
+if (typeof window !== 'undefined') {
+  document.addEventListener('DOMContentLoaded', () => {
+    // Public method to translate page
+    const translatePage = () => {
+      const elements = document.querySelectorAll('[data-i18n]')
+      elements.forEach(element => {
+        const key = element.getAttribute('data-i18n')
+        if (key) {
+          const translation = i18n.t(key)
+          if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+            (element as HTMLInputElement).placeholder = translation
+          } else {
+            element.textContent = translation
+          }
+        }
+      })
+    }
+    translatePage()
+  })
+}
