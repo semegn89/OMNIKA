@@ -27,7 +27,10 @@ export const translations = {
       title: 'Premium Auto Parts for European Cars',
       subtitle: 'Find genuine parts for Mercedes, BMW, Audi, Volkswagen and more',
       cta: 'Browse Catalog',
-      secondaryCta: 'Learn More'
+      secondaryCta: 'Learn More',
+      ctaCatalog: 'Browse Catalog',
+      ctaPromotions: 'View Promotions',
+      ctaRegister: 'Register Now'
     },
     catalog: {
       title: 'Auto Parts Catalog',
@@ -229,7 +232,10 @@ export const translations = {
       title: 'Piese Auto Premium pentru Mașini Europene',
       subtitle: 'Găsește piese originale pentru Mercedes, BMW, Audi, Volkswagen și multe altele',
       cta: 'Vezi Catalogul',
-      secondaryCta: 'Află Mai Multe'
+      secondaryCta: 'Află Mai Multe',
+      ctaCatalog: 'Vezi Catalogul',
+      ctaPromotions: 'Vezi Promoții',
+      ctaRegister: 'Înregistrează-te Acum'
     },
     catalog: {
       title: 'Catalog Piese Auto',
