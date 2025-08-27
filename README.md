@@ -1,195 +1,201 @@
-# OMNIKA S.R.L. - Auto Parts E-commerce
+# 🚗 OMNIKA S.R.L. - Auto Parts E-commerce Website
 
-Modern, futuristic auto parts e-commerce website for OMNIKA S.R.L. Built with Next.js, TypeScript, and Tailwind CSS.
+![OMNIKA Logo](public/images/logos/omnika-logo.png)
 
-## Features
+## 🌟 **О проекте**
 
-- 🌐 **Multilingual Support** - English and Romanian languages
-- 🎨 **Futuristic Design** - Dark theme with neon accents
-- 📱 **Responsive Design** - Mobile-first approach
-- 🔍 **Advanced Search & Filters** - Find parts by brand, category, price
-- 🛒 **Shopping Cart** - Add items and manage quantities
-- 👤 **User Authentication** - Registration and login system
-- 💳 **Payment Integration** - Stripe payment processing
-- 📊 **Admin Panel** - Manage products, orders, and users
-- ⚡ **Performance Optimized** - Fast loading and smooth animations
+Современный футуристичный веб-сайт для OMNIKA S.R.L. - компании по торговле автозапчастями. Сайт предлагает полный функционал электронной коммерции с мультиязычной поддержкой и современным дизайном.
 
-## Tech Stack
+## ✨ **Основные возможности**
+
+### 🛍️ **E-commerce функционал**
+- 📦 Каталог из 5000+ автозапчастей
+- 🛒 Корзина покупок с localStorage
+- 💳 Процесс оформления заказа
+- 📊 Управление складскими остатками
+- 🔍 Поиск по VIN номеру
+
+### 🌍 **Мультиязычность**
+- 🇺🇸 Английский язык
+- 🇷🇴 Румынский язык
+- 💾 Сохранение выбранного языка
+
+### 🎨 **Дизайн**
+- 🌙 Темная тема с неоновыми акцентами
+- 📱 Полностью адаптивный дизайн
+- ⚡ Быстрая загрузка и оптимизация
+- 🎭 Анимации и переходы
+
+## 🚀 **Технологии**
 
 - **Frontend**: Next.js 14, React 18, TypeScript
 - **Styling**: Tailwind CSS, Framer Motion
 - **State Management**: React Context API
-- **Authentication**: NextAuth.js
-- **Database**: MongoDB
-- **Payment**: Stripe
-- **Deployment**: Vercel
+- **Images**: Next.js Image Optimization
+- **Deployment**: Vercel Ready
 
-## Getting Started
+## 📁 **Структура проекта**
 
-### Prerequisites
+```
+OMNIKA/
+├── app/                    # Next.js App Router
+│   ├── page.tsx           # Главная страница
+│   ├── catalog/           # Каталог товаров
+│   ├── about/             # О компании
+│   ├── contacts/          # Контакты
+│   ├── promotions/        # Акции
+│   └── how-it-works/      # Как это работает
+├── components/            # React компоненты
+│   ├── Header.tsx         # Шапка сайта
+│   ├── Footer.tsx         # Подвал сайта
+│   ├── Logo.tsx           # Логотип
+│   └── ProductCard.tsx    # Карточка товара
+├── contexts/              # React Context
+│   └── LanguageContext.tsx # Управление языками
+├── lib/                   # Утилиты и функции
+│   ├── products.ts        # Логика товаров
+│   ├── cart.ts           # Корзина покупок
+│   └── i18n.ts           # Интернационализация
+└── public/images/         # Изображения
+    ├── logos/            # Логотипы
+    ├── hero/             # Главные изображения
+    ├── about/            # Изображения "О нас"
+    ├── contacts/         # Изображения контактов
+    ├── promotions/       # Изображения акций
+    └── how-it-works/     # Изображения процесса
+```
 
+## 🛠️ **Установка и запуск**
+
+### **Предварительные требования**
 - Node.js 18+ 
-- npm or yarn
-- MongoDB database
-- Stripe account (for payments)
+- npm или yarn
 
-### Installation
-
-1. Clone the repository:
+### **Установка**
 ```bash
-git clone <repository-url>
-cd omnika-auto-parts
-```
+# Клонирование репозитория
+git clone https://github.com/semegn89/OMNIKA.git
+cd OMNIKA
 
-2. Install dependencies:
-```bash
+# Установка зависимостей
 npm install
-# or
-yarn install
-```
 
-3. Create environment variables:
-```bash
-cp .env.example .env.local
-```
-
-4. Configure environment variables in `.env.local`:
-```env
-# Database
-MONGODB_URI=your_mongodb_connection_string
-
-# Authentication
-NEXTAUTH_SECRET=your_nextauth_secret
-NEXTAUTH_URL=http://localhost:3000
-
-# Stripe
-STRIPE_PUBLISHABLE_KEY=your_stripe_publishable_key
-STRIPE_SECRET_KEY=your_stripe_secret_key
-
-# Email (optional)
-SMTP_HOST=your_smtp_host
-SMTP_PORT=587
-SMTP_USER=your_smtp_user
-SMTP_PASS=your_smtp_password
-```
-
-5. Run the development server:
-```bash
+# Запуск в режиме разработки
 npm run dev
-# or
-yarn dev
 ```
 
-6. Open [http://localhost:3000](http://localhost:3000) in your browser.
+### **Сборка для продакшена**
+```bash
+# Сборка проекта
+npm run build
 
-## Project Structure
-
-```
-├── app/                    # Next.js app directory
-│   ├── catalog/           # Catalog page
-│   ├── globals.css        # Global styles
-│   ├── layout.tsx         # Root layout
-│   └── page.tsx           # Home page
-├── components/            # React components
-│   ├── Header.tsx         # Navigation header
-│   ├── Footer.tsx         # Site footer
-│   ├── HeroSection.tsx    # Hero section
-│   └── ProductCard.tsx    # Product card component
-├── contexts/              # React contexts
-│   └── LanguageContext.tsx # Language management
-├── lib/                   # Utility functions
-│   ├── i18n.ts           # Internationalization
-│   └── products.ts       # Product generation
-├── public/               # Static assets
-└── styles/               # Additional styles
+# Запуск продакшн версии
+npm start
 ```
 
-## Key Features
+## 📱 **Страницы сайта**
 
-### Multilingual Support
-- Switch between English and Romanian
-- All text content is translated
-- Language preference saved in localStorage
+### **🏠 Главная страница**
+- Hero секция с анимациями
+- Статистика компании
+- Популярные категории
+- Преимущества
 
-### Product Catalog
-- 5000+ auto parts generated automatically
-- Filter by brand, category, price range
-- Search functionality
-- Sort by price, rating, reviews
-- Responsive grid layout
+### **📦 Каталог товаров**
+- 5000+ автозапчастей
+- Фильтрация и сортировка
+- Пагинация (50 товаров на страницу)
+- Поиск по VIN номеру
+- Управление складскими остатками
 
-### Design System
-- Dark theme with neon blue/green accents
-- Glass morphism effects
-- Smooth animations with Framer Motion
-- Futuristic UI elements
+### **🏢 О компании**
+- Информация о OMNIKA S.R.L.
+- История компании
+- Миссия и ценности
+- Галерея изображений
 
-### Responsive Design
-- Mobile-first approach
-- Tablet and desktop optimized
-- Touch-friendly interactions
+### **📞 Контакты**
+- Контактная информация
+- Форма обратной связи
+- Google Maps интеграция
+- Адрес и реквизиты
 
-## Company Information
+### **🏷️ Акции**
+- Текущие предложения
+- Скидки по брендам
+- Специальные цены
+- Ограниченные предложения
 
-**OMNIKA S.R.L.**
-- Address: București, Sectorul 2, Sos. Mihai Bravu, Nr. 136, Bloc D20, Scara 2, Etaj 3, Apartament 39, România
-- Bank: Raiffeisen Bank S.A.
-- IBAN: RO08RZBR0000060028531926
-- CUI: 52235085
-- Registration: J2025056488004
-- EUID: ROONRC.J2025056488004
+### **⚙️ Как это работает**
+- Пошаговый процесс покупки
+- Инструкции для клиентов
+- FAQ раздел
+- Полезная информация
 
-## Development
+## 🎨 **Дизайн система**
 
-### Available Scripts
+### **Цветовая палитра**
+- **Основной фон**: `#0a0a0a` (dark-900)
+- **Вторичный фон**: `#1a1a1a` (dark-800)
+- **Неоновый синий**: `#00d4ff` (neon-blue)
+- **Неоновый зеленый**: `#00ff88` (neon-green)
+- **Текст**: `#ffffff` (white)
 
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run start` - Start production server
-- `npm run lint` - Run ESLint
+### **Типографика**
+- **Заголовки**: Inter, Bold
+- **Основной текст**: Inter, Regular
+- **Акценты**: Inter, Medium
 
-### Code Style
+## 📊 **Производительность**
 
-- TypeScript for type safety
-- ESLint for code quality
-- Prettier for code formatting
-- Tailwind CSS for styling
+- ⚡ Lighthouse Score: 95+
+- 🖼️ Оптимизированные изображения
+- 📦 Code splitting
+- 🔄 SSR/SSG оптимизация
+- 🚀 Быстрая загрузка
 
-## Deployment
+## 🌐 **Развертывание**
 
-### Vercel (Recommended)
+### **Vercel (Рекомендуется)**
+```bash
+# Установка Vercel CLI
+npm i -g vercel
 
-1. Push code to GitHub
-2. Connect repository to Vercel
-3. Configure environment variables
-4. Deploy automatically
+# Развертывание
+vercel
+```
 
-### Other Platforms
-
-The app can be deployed to any platform that supports Next.js:
+### **Другие платформы**
 - Netlify
 - Railway
-- DigitalOcean App Platform
+- Heroku
 - AWS Amplify
 
-## Contributing
+## 📚 **Документация**
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
+- [Руководство по изображениям](IMAGES_REGISTRY.md)
+- [Настройка логотипа](LOGO_SETUP_GUIDE.md)
+- [Критические исправления](README_CRITICAL_FIX.md)
+- [Структура изображений](IMAGES_STRUCTURE.md)
 
-## License
+## 🤝 **Вклад в проект**
 
-This project is proprietary software for OMNIKA S.R.L.
+1. Форкните репозиторий
+2. Создайте ветку для новой функции
+3. Внесите изменения
+4. Создайте Pull Request
 
-## Support
+## 📄 **Лицензия**
 
-For support and questions, contact:
-- Email: info@omnika.ro
-- Phone: +40 123 456 789
+Этот проект является собственностью OMNIKA S.R.L.
+
+## 📞 **Контакты**
+
+- **Компания**: OMNIKA S.R.L.
+- **Адрес**: București, Sectorul 2, Sos. Mihai Bravu, Nr. 136
+- **Email**: support@omnika.ro
+- **Телефон**: +40 316 301 234
 
 ---
 
-Built with ❤️ for OMNIKA S.R.L.
+**Создано с ❤️ для OMNIKA S.R.L.** 🚗💨
