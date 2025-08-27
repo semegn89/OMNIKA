@@ -77,6 +77,7 @@ export default function Header() {
             <Link href="/contacts" className="text-gray-300 hover:text-white transition-colors">
               {t('nav.contacts')}
             </Link>
+
           </nav>
 
           {/* Desktop Actions */}
