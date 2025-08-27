@@ -50,7 +50,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     if (!isClient) return key // Return key during SSR
     
     const keys = key.split('.')
-    let value = translations[locale]
+    let value: any = translations[locale]
 
     for (const k of keys) {
       if (value && typeof value === 'object' && k in value) {

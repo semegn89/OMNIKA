@@ -31,19 +31,19 @@ export default function UnsplashDemo() {
           🖼️ Unsplash Image Integration Demo
         </h1>
         <p className="text-gray-300 text-lg">
-          {t('unsplashDemo', 'Automatically load high-quality images from Unsplash')}
+          {t('unsplashDemo')}
         </p>
       </div>
 
       {/* Product Category Images */}
       <div className="bg-gray-800 rounded-lg p-6">
         <h2 className="text-2xl font-bold text-neon-blue mb-4">
-          📦 {t('productImages', 'Product Category Images')}
+                      📦 {t('productImages')}
         </h2>
         
         <div className="mb-4">
           <label className="block text-gray-300 mb-2">
-            {t('selectCategory', 'Select Category')}:
+            {t('selectCategory')}:
           </label>
           <select
             value={selectedCategory}
@@ -72,12 +72,12 @@ export default function UnsplashDemo() {
       {/* Brand Images */}
       <div className="bg-gray-800 rounded-lg p-6">
         <h2 className="text-2xl font-bold text-neon-blue mb-4">
-          🏷️ {t('brandImages', 'Brand Images')}
+                      🏷️ {t('brandImages')}
         </h2>
         
         <div className="mb-4">
           <label className="block text-gray-300 mb-2">
-            {t('selectBrand', 'Select Brand')}:
+            {t('selectBrand')}:
           </label>
           <select
             value={selectedBrand}
@@ -106,12 +106,12 @@ export default function UnsplashDemo() {
       {/* Section Images */}
       <div className="bg-gray-800 rounded-lg p-6">
         <h2 className="text-2xl font-bold text-neon-blue mb-4">
-          🏠 {t('sectionImages', 'Section Images')}
+                      🏠 {t('sectionImages')}
         </h2>
         
         <div className="mb-4">
           <label className="block text-gray-300 mb-2">
-            {t('selectSection', 'Select Section')}:
+            {t('selectSection')}:
           </label>
           <select
             value={selectedSection}
@@ -140,16 +140,16 @@ export default function UnsplashDemo() {
       {/* Instructions */}
       <div className="bg-gray-800 rounded-lg p-6">
         <h2 className="text-2xl font-bold text-neon-green mb-4">
-          📋 {t('instructions', 'How to Use')}
+                      📋 {t('instructions')}
         </h2>
         
         <div className="space-y-4 text-gray-300">
           <div>
             <h3 className="text-lg font-semibold text-neon-blue mb-2">
-              1. {t('downloadImages', 'Download Images')}
+              1. {t('downloadImages')}
             </h3>
             <p className="mb-2">
-              {t('downloadCommand', 'Run this command to download images to your local directory:')}
+                              {t('downloadCommand')}
             </p>
             <code className="bg-gray-900 px-3 py-2 rounded text-neon-green block">
               npm run download-images
@@ -158,10 +158,10 @@ export default function UnsplashDemo() {
 
           <div>
             <h3 className="text-lg font-semibold text-neon-blue mb-2">
-              2. {t('useComponent', 'Use ImageLoader Component')}
+              2. {t('useComponent')}
             </h3>
             <p className="mb-2">
-              {t('componentUsage', 'Use the ImageLoader component in your pages:')}
+                              {t('componentUsage')}
             </p>
             <code className="bg-gray-900 px-3 py-2 rounded text-neon-green block text-sm">
               {`<ImageLoader
@@ -175,10 +175,10 @@ export default function UnsplashDemo() {
 
           <div>
             <h3 className="text-lg font-semibold text-neon-blue mb-2">
-              3. {t('apiUsage', 'Use API Directly')}
+              3. {t('apiUsage')}
             </h3>
             <p className="mb-2">
-              {t('apiCall', 'Make API calls to get image URLs:')}
+                              {t('apiCall')}
             </p>
             <code className="bg-gray-900 px-3 py-2 rounded text-neon-green block text-sm">
               {`fetch('/api/images?type=product&category=engine&count=5')`}

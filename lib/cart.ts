@@ -119,7 +119,7 @@ class CartManager {
         name: product.name,
         price: product.price,
         quantity,
-        image: product.images[0] || '',
+        image: product.images?.[0] || '',
         stock_qty: product.stock_qty
       })
     }

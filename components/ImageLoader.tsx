@@ -99,13 +99,13 @@ export default function ImageLoader({
       <div className={`bg-gray-800 rounded-lg flex items-center justify-center ${className}`}>
         <div className="text-center p-4">
           <div className="text-gray-400 text-sm mb-2">
-            {t('imageLoadError', 'Image not available')}
+            {t('imageLoadError')}
           </div>
           <button
             onClick={() => window.location.reload()}
             className="text-neon-green hover:text-neon-blue text-xs underline"
           >
-            {t('retry', 'Retry')}
+            {t('retry')}
           </button>
         </div>
       </div>

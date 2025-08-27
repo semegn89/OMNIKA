@@ -27,11 +27,11 @@ export default function CatalogPage() {
   const [selectedCategory, setSelectedCategory] = useState('')
   const [priceRange, setPriceRange] = useState({ min: 0, max: 1000 })
   const [inStock, setInStock] = useState(false)
-  const [sortBy, setSortBy] = useState('name')
+  const [sortBy, setSortBy] = useState<'price-asc' | 'price-desc' | 'rating' | 'reviews' | 'name' | 'stock'>('name')
 
   // Get unique brands and categories
-  const brands = [...new Set(products.map(p => p.brand))].sort()
-  const categories = [...new Set(products.map(p => p.category))].sort()
+  const brands = Array.from(new Set(products.map(p => p.brand))).sort()
+  const categories = Array.from(new Set(products.map(p => p.category))).sort()
 
   useEffect(() => {
     // Generate products using the function from lib/products.ts
@@ -85,7 +85,7 @@ export default function CatalogPage() {
     setSelectedCategory('')
     setPriceRange({ min: 0, max: 1000 })
     setInStock(false)
-    setSortBy('name')
+    setSortBy('name' as const)
   }
 
   return (
@@ -132,7 +132,7 @@ export default function CatalogPage() {
                   </label>
                   <select
                     value={sortBy}
-                    onChange={(e) => setSortBy(e.target.value)}
+                    onChange={(e) => setSortBy(e.target.value as 'price-asc' | 'price-desc' | 'rating' | 'reviews' | 'name' | 'stock')}
                     className="w-full px-4 py-3 bg-dark-700 border border-dark-600 rounded-lg text-white focus:outline-none focus:border-neon-blue transition-colors duration-200"
                   >
                     <option value="name">{t('catalog.name')}</option>

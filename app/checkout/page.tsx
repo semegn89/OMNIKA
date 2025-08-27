@@ -31,7 +31,7 @@ interface FormErrors {
 export default function CheckoutPage() {
   const router = useRouter()
   const { t } = useLanguage()
-  const { cart, cartTotal, isEmpty, clearCart } = useCart()
+  const { cart, total, isEmpty, clear } = useCart()
   
   const [form, setForm] = useState<CheckoutForm>({
     fullName: '',
@@ -51,7 +51,7 @@ export default function CheckoutPage() {
 
   // Redirect if cart is empty
   useEffect(() => {
-    if (isEmpty) {
+    if (isEmpty()) {
       router.push('/catalog')
     }
   }, [isEmpty, router])
@@ -141,11 +141,11 @@ export default function CheckoutPage() {
   }
 
   const calculateTax = (): number => {
-    return cartTotal * 0.19 // 19% VAT for Romania
+    return total() * 0.19 // 19% VAT for Romania
   }
 
   const calculateTotal = (): number => {
-    return cartTotal + calculateShipping() + calculateTax()
+    return total() + calculateShipping() + calculateTax()
   }
 
   const generateOrderNumber = (): string => {
@@ -191,7 +191,7 @@ export default function CheckoutPage() {
           method: form.paymentMethod
         },
         totals: {
-          subtotal: cartTotal,
+          subtotal: total(),
           shipping: calculateShipping(),
           tax: calculateTax(),
           total: calculateTotal()
@@ -204,7 +204,7 @@ export default function CheckoutPage() {
       cartManager.setLastOrder(order)
       
       // Clear cart
-      clearCart()
+      clear()
       
       // Redirect to confirmation
       router.push('/order-confirmation')
@@ -217,7 +217,7 @@ export default function CheckoutPage() {
     }
   }
 
-  if (isEmpty) {
+  if (isEmpty()) {
     return null // Will redirect
   }
 
@@ -513,12 +513,12 @@ export default function CheckoutPage() {
                 {/* Order Items */}
                 <div className="space-y-3 mb-6">
                   {cart.items.map((item) => (
-                    <div key={item.product.id} className="flex justify-between items-center">
+                    <div key={item.sku} className="flex justify-between items-center">
                       <div className="flex-1">
-                        <div className="text-white text-sm font-medium">{item.product.name}</div>
+                        <div className="text-white text-sm font-medium">{item.name}</div>
                         <div className="text-gray-400 text-xs">Qty: {item.quantity}</div>
                       </div>
-                      <div className="text-white font-medium">€{(item.product.price * item.quantity).toFixed(2)}</div>
+                      <div className="text-white font-medium">€{(item.price * item.quantity).toFixed(2)}</div>
                     </div>
                   ))}
                 </div>
@@ -527,7 +527,7 @@ export default function CheckoutPage() {
                 <div className="border-t border-dark-600 pt-4 space-y-2">
                   <div className="flex justify-between text-gray-300">
                     <span>{t('cart.subtotal')}</span>
-                    <span>€{cartTotal.toFixed(2)}</span>
+                    <span>€{total().toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between text-gray-300">
                     <span>{t('cart.shipping')}</span>
