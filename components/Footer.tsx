@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import { useLanguage } from '@/contexts/LanguageContext'
 import Link from 'next/link'
 import { MapPin, Phone, Mail, Globe, Shield } from 'lucide-react'
+import Logo from './Logo'
 
 export default function Footer() {
   const { t } = useLanguage()
@@ -15,11 +16,8 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div className="lg:col-span-2">
-            <div className="flex items-center space-x-2 mb-4">
-              <div className="w-8 h-8 bg-gradient-to-r from-neon-blue to-neon-green rounded-lg flex items-center justify-center">
-                <span className="text-dark-900 font-bold text-sm">O</span>
-              </div>
-              <h3 className="text-xl font-bold text-white">{t('footer.company')}</h3>
+            <div className="mb-4">
+              <Logo size="lg" showText={false} />
             </div>
             <p className="text-gray-300 mb-6 max-w-md">
               {t('footer.description')}

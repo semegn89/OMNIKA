@@ -6,6 +6,7 @@ import { useLanguage } from '@/contexts/LanguageContext'
 import { useCart } from '@/lib/cart'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ShoppingCart, User, Menu, X, Globe, ChevronDown } from 'lucide-react'
+import Logo from './Logo'
 
 export default function Header() {
   const { locale, changeLocale, t } = useLanguage()
@@ -50,12 +51,7 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-gradient-to-r from-neon-blue to-neon-green rounded-lg flex items-center justify-center">
-              <span className="text-dark-900 font-bold text-sm">O</span>
-            </div>
-            <span className="text-white font-bold text-xl">OMNIKA</span>
-          </Link>
+          <Logo size="md" showText={false} />
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">

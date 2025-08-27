@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
+import Image from 'next/image'
 import { useLanguage } from '@/contexts/LanguageContext'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
@@ -51,8 +52,20 @@ export default function ContactsPage() {
       
       <main className="pt-16">
         {/* Hero Section */}
-        <section className="bg-gradient-to-r from-dark-800 to-dark-900 py-16">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section className="relative bg-gradient-to-r from-dark-800 to-dark-900 py-16 overflow-hidden">
+          {/* Background Image */}
+          <div className="absolute inset-0">
+            <Image
+              src="/images/contacts/contacts-1.jpg"
+              alt="OMNIKA Contact Background"
+              fill
+              sizes="100vw"
+              className="object-cover opacity-20"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-dark-800/80 to-dark-900/80"></div>
+          </div>
+          
+          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center">
               <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
                 {t('contacts.title')}
@@ -78,6 +91,17 @@ export default function ContactsPage() {
                   Have questions about our auto parts or need assistance with your order? 
                   Our team is here to help you with any inquiries.
                 </p>
+                
+                {/* Contact Image */}
+                <div className="relative w-full h-64 rounded-lg shadow-2xl overflow-hidden">
+                  <Image
+                    src="/images/contacts/contacts-2.jpg"
+                    alt="OMNIKA Customer Service"
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                    className="object-cover"
+                  />
+                </div>
               </div>
 
               {/* Contact Details */}

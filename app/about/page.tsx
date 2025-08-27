@@ -6,6 +6,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { motion } from 'framer-motion'
 import { Users, Globe, Target, Shield, Truck, Star, MapPin, Building } from 'lucide-react'
+import Image from 'next/image'
 
 export default function AboutPage() {
   return (
@@ -59,11 +60,15 @@ export default function AboutPage() {
                   </div>
                 </div>
                 <div className="relative">
-                  <img 
-                    src="/images/about/about-company.jpg" 
-                    alt="OMNIKA Company Office" 
-                    className="w-full h-80 object-cover rounded-lg shadow-2xl"
-                  />
+                  <div className="relative w-full h-80 rounded-lg shadow-2xl overflow-hidden">
+                    <Image
+                      src="/images/about/about-company.jpg" 
+                      alt="OMNIKA Company Office" 
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 50vw"
+                      className="object-cover"
+                    />
+                  </div>
                   <div className="absolute inset-0 bg-gradient-to-t from-dark-900/50 to-transparent rounded-lg"></div>
                 </div>
               </div>
@@ -82,11 +87,15 @@ export default function AboutPage() {
                   Simple three-step process to get your auto parts delivered to your doorstep
                 </p>
                 <div className="max-w-2xl mx-auto">
-                  <img 
-                    src="/images/about/about-team.jpg" 
-                    alt="OMNIKA Team" 
-                    className="w-full h-64 object-cover rounded-lg shadow-2xl"
-                  />
+                  <div className="relative w-full h-64 rounded-lg shadow-2xl overflow-hidden">
+                    <Image
+                      src="/images/about/about-team.jpg" 
+                      alt="OMNIKA Team" 
+                      fill
+                      sizes="(max-width: 768px) 100vw, 768px"
+                      className="object-cover"
+                    />
+                  </div>
                 </div>
               </div>
               
@@ -199,11 +208,15 @@ export default function AboutPage() {
                 </div>
                 
                 <div className="mt-8">
-                  <img 
-                    src="/images/about/about-warehouse.jpg" 
-                    alt="OMNIKA Warehouse" 
-                    className="w-full h-80 object-cover rounded-lg shadow-2xl"
-                  />
+                  <div className="relative w-full h-80 rounded-lg shadow-2xl overflow-hidden">
+                    <Image
+                      src="/images/about/about-warehouse.jpg" 
+                      alt="OMNIKA Warehouse" 
+                      fill
+                      sizes="100vw"
+                      className="object-cover"
+                    />
+                  </div>
                 </div>
               </div>
             </motion.section>
@@ -222,11 +235,15 @@ export default function AboutPage() {
                   pay for it safely and conveniently, and receive delivery directly in their country.
                 </p>
                 <div className="max-w-3xl mx-auto">
-                  <img 
-                    src="/images/about/about-delivery.jpg" 
-                    alt="OMNIKA Delivery Service" 
-                    className="w-full h-64 object-cover rounded-lg shadow-2xl"
-                  />
+                  <div className="relative w-full h-64 rounded-lg shadow-2xl overflow-hidden">
+                    <Image
+                      src="/images/about/about-delivery.jpg" 
+                      alt="OMNIKA Delivery Service" 
+                      fill
+                      sizes="(max-width: 768px) 100vw, 768px"
+                      className="object-cover"
+                    />
+                  </div>
                 </div>
               </div>
 

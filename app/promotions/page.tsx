@@ -6,6 +6,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { motion } from 'framer-motion'
 import { Percent, Clock, Star, ShoppingCart, ArrowRight } from 'lucide-react'
+import Image from 'next/image'
 
 export default function PromotionsPage() {
   const promotions = [
@@ -16,7 +17,7 @@ export default function PromotionsPage() {
       description: 'Get premium Mercedes auto parts at unbeatable prices. Limited time offer on engine, suspension, and brake components.',
       discount: '20%',
       endDate: '2024-12-31',
-      image: 'https://via.placeholder.com/600x400/1e293b/00d4ff?text=Mercedes+Sale',
+      image: '/images/promotions/mercedes.jpg',
       category: 'Mercedes',
       featured: true
     },
@@ -27,7 +28,7 @@ export default function PromotionsPage() {
       description: 'Enhance your BMW performance with our premium parts. Special pricing on exhaust systems, air filters, and ECU upgrades.',
       discount: '15%',
       endDate: '2024-11-30',
-      image: 'https://via.placeholder.com/600x400/1e293b/00ff88?text=BMW+Performance',
+      image: '/images/promotions/bmw.jpg',
       category: 'BMW',
       featured: false
     },
@@ -38,7 +39,7 @@ export default function PromotionsPage() {
       description: 'Upgrade your Audi electronics with our premium components. Special offers on sensors, ECUs, and lighting systems.',
       discount: '25%',
       endDate: '2024-10-31',
-      image: 'https://via.placeholder.com/600x400/1e293b/8b5cf6?text=Audi+Electronics',
+      image: '/images/promotions/audi.jpg',
       category: 'Audi',
       featured: false
     },
@@ -49,7 +50,7 @@ export default function PromotionsPage() {
       description: 'Keep your Volkswagen running smoothly with our maintenance parts. Special pricing on filters, fluids, and wear items.',
       discount: '10%',
       endDate: '2024-12-15',
-      image: 'https://via.placeholder.com/600x400/1e293b/00d4ff?text=VW+Maintenance',
+      image: '/images/promotions/volkswagen.jpg',
       category: 'Volkswagen',
       featured: false
     }
@@ -70,8 +71,20 @@ export default function PromotionsPage() {
         
         <main className="pt-16">
           {/* Hero Section */}
-          <section className="bg-gradient-to-r from-dark-800 to-dark-900 py-16">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <section className="relative bg-gradient-to-r from-dark-800 to-dark-900 py-16 overflow-hidden">
+            {/* Background Image */}
+            <div className="absolute inset-0">
+              <Image
+                src="/images/promotions/promotions-1.jpg"
+                alt="Promotions Background"
+                fill
+                sizes="100vw"
+                className="object-cover opacity-20"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-dark-800/80 to-dark-900/80"></div>
+            </div>
+            
+            <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -124,11 +137,15 @@ export default function PromotionsPage() {
                       </div>
                     </div>
                     <div className="relative">
-                      <img
-                        src={promotion.image}
-                        alt={promotion.title}
-                        className="w-full h-64 object-cover rounded-lg"
-                      />
+                      <div className="relative w-full h-64 rounded-lg overflow-hidden">
+                        <Image
+                          src={promotion.image}
+                          alt={promotion.title}
+                          fill
+                          sizes="(max-width: 1024px) 100vw, 50vw"
+                          className="object-cover"
+                        />
+                      </div>
                       <div className="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold">
                         FEATURED
                       </div>
@@ -156,11 +173,15 @@ export default function PromotionsPage() {
                     className="bg-dark-800 border border-dark-700 rounded-lg overflow-hidden hover:border-neon-blue/50 transition-colors"
                   >
                     <div className="relative">
-                      <img
-                        src={promotion.image}
-                        alt={promotion.title}
-                        className="w-full h-48 object-cover"
-                      />
+                      <div className="relative w-full h-48 overflow-hidden">
+                        <Image
+                          src={promotion.image}
+                          alt={promotion.title}
+                          fill
+                          sizes="(max-width: 768px) 100vw, 50vw"
+                          className="object-cover"
+                        />
+                      </div>
                       <div className="absolute top-4 left-4 bg-neon-green text-dark-900 px-3 py-1 rounded-full text-sm font-bold">
                         {promotion.discount} OFF
                       </div>

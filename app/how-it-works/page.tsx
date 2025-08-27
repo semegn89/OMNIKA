@@ -6,6 +6,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { motion } from 'framer-motion'
 import { Search, ShoppingCart, CreditCard, Truck, ArrowRight, CheckCircle } from 'lucide-react'
+import Image from 'next/image'
 
 export default function HowItWorksPage() {
   const steps = [
@@ -51,8 +52,20 @@ export default function HowItWorksPage() {
         
         <main className="pt-16">
           {/* Hero Section */}
-          <section className="bg-gradient-to-r from-dark-800 to-dark-900 py-16">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <section className="relative bg-gradient-to-r from-dark-800 to-dark-900 py-16 overflow-hidden">
+            {/* Background Image */}
+            <div className="absolute inset-0">
+              <Image
+                src="/images/how-it-works/how-it-works-1.avif"
+                alt="How It Works Background"
+                fill
+                sizes="100vw"
+                className="object-cover opacity-20"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-dark-800/80 to-dark-900/80"></div>
+            </div>
+            
+            <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -163,20 +176,31 @@ export default function HowItWorksPage() {
                       </div>
                     </div>
                   </div>
-                  <div>
-                    <h3 className="text-2xl font-semibold text-white mb-6">Customer Support</h3>
-                    <div className="space-y-4 text-gray-300">
-                      <div className="flex items-start space-x-3">
-                        <div className="w-2 h-2 bg-neon-blue rounded-full mt-2 flex-shrink-0"></div>
-                        <p>24/7 technical support available</p>
-                      </div>
-                      <div className="flex items-start space-x-3">
-                        <div className="w-2 h-2 bg-neon-green rounded-full mt-2 flex-shrink-0"></div>
-                        <p>Expert advice on part selection</p>
-                      </div>
-                      <div className="flex items-start space-x-3">
-                        <div className="w-2 h-2 bg-neon-purple rounded-full mt-2 flex-shrink-0"></div>
-                        <p>Fast response times and personalized service</p>
+                  <div className="relative">
+                    <div className="relative w-full h-64 rounded-lg overflow-hidden">
+                      <Image
+                        src="/images/how-it-works/how-it-works-2.avif"
+                        alt="OMNIKA Process"
+                        fill
+                        sizes="(max-width: 1024px) 100vw, 50vw"
+                        className="object-cover"
+                      />
+                    </div>
+                    <div className="mt-6">
+                      <h3 className="text-2xl font-semibold text-white mb-6">Customer Support</h3>
+                      <div className="space-y-4 text-gray-300">
+                        <div className="flex items-start space-x-3">
+                          <div className="w-2 h-2 bg-neon-blue rounded-full mt-2 flex-shrink-0"></div>
+                          <p>24/7 technical support available</p>
+                        </div>
+                        <div className="flex items-start space-x-3">
+                          <div className="w-2 h-2 bg-neon-green rounded-full mt-2 flex-shrink-0"></div>
+                          <p>Expert advice on part selection</p>
+                        </div>
+                        <div className="flex items-start space-x-3">
+                          <div className="w-2 h-2 bg-neon-purple rounded-full mt-2 flex-shrink-0"></div>
+                          <p>Fast response times and personalized service</p>
+                        </div>
                       </div>
                     </div>
                   </div>
