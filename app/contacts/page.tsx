@@ -154,6 +154,24 @@ export default function ContactsPage() {
 
                 <div className="flex items-start space-x-4">
                   <div className="flex-shrink-0">
+                    <svg className="w-6 h-6 text-neon-green" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                      <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="text-white font-semibold mb-2">{t('contacts.businessCooperation')}</h3>
+                    <a 
+                      href="mailto:omnikasrl@gmail.com" 
+                      className="text-neon-green hover:text-neon-blue transition-colors"
+                    >
+                      omnikasrl@gmail.com
+                    </a>
+                  </div>
+                </div>
+
+                <div className="flex items-start space-x-4">
+                  <div className="flex-shrink-0">
                     <Clock size={24} className="text-neon-green" />
                   </div>
                   <div>

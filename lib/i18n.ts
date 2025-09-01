@@ -175,7 +175,8 @@ export const translations = {
       sendMessage: 'Send Message',
       name: 'Name',
       message: 'Message',
-      subject: 'Subject'
+      subject: 'Subject',
+      businessCooperation: 'Business Cooperation'
     },
     profile: {
       title: 'Personal Account',
@@ -399,7 +400,8 @@ export const translations = {
       sendMessage: 'Trimite Mesaj',
       name: 'Nume',
       message: 'Mesaj',
-      subject: 'Subiect'
+      subject: 'Subiect',
+      businessCooperation: 'Cooperare Comercială'
     },
     profile: {
       title: 'Cont Personal',

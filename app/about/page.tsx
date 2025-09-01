@@ -280,6 +280,44 @@ export default function AboutPage() {
               </div>
             </motion.section>
 
+            {/* Contact for Cooperation */}
+            <motion.section
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.8 }}
+              className="mb-16"
+            >
+              <div className="bg-gradient-to-r from-neon-blue/10 to-neon-green/10 border border-neon-blue/30 rounded-lg p-8">
+                <div className="text-center mb-8">
+                  <h2 className="text-3xl font-bold text-white mb-4">Partnership & Cooperation</h2>
+                  <p className="text-gray-300 text-lg max-w-2xl mx-auto">
+                    Interested in partnering with OMNIKA? We're always looking for new opportunities to expand our network 
+                    and provide better service to our customers.
+                  </p>
+                </div>
+
+                <div className="text-center">
+                  <div className="inline-flex items-center space-x-3 bg-dark-800/50 backdrop-blur-sm border border-neon-blue/30 rounded-lg px-6 py-4">
+                    <div className="w-8 h-8 bg-neon-blue rounded-full flex items-center justify-center">
+                      <svg className="w-4 h-4 text-dark-900" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                        <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                      </svg>
+                    </div>
+                    <div className="text-left">
+                      <p className="text-gray-300 text-sm">For Business Cooperation</p>
+                      <a 
+                        href="mailto:omnikasrl@gmail.com" 
+                        className="text-neon-blue hover:text-neon-green transition-colors font-semibold text-lg"
+                      >
+                        omnikasrl@gmail.com
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.section>
+
             {/* Why Choose OMNIKA */}
             <motion.section
               initial={{ opacity: 0, y: 30 }}
