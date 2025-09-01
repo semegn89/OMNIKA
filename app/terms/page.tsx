@@ -80,7 +80,7 @@ export default function TermsPage() {
                   <p><strong>CUI:</strong> RO12345678</p>
                   <p><strong>Registration Number:</strong> J40/1234/2020</p>
                   <p><strong>Registered Address:</strong> București, Sectorul 2, Sos. Mihai Bravu, Nr. 136, Bloc D20, Scara 2, Etaj 3, Apartament 39, România</p>
-                  <p><strong>Email:</strong> support@omnika.ro</p>
+                  <p><strong>Email:</strong> support@omnika.com</p>
                   <p><strong>Phone:</strong> +40 (31) 630-12-34</p>
                 </div>
               </section>
@@ -141,7 +141,7 @@ export default function TermsPage() {
                 <div className="space-y-4">
                   <p>We are committed to protecting your privacy. Our data collection and processing practices are detailed in our Privacy Policy.</p>
                   <p><strong>Data Controller:</strong> OMNIKA S.R.L. is the data controller for personal data collected through our services.</p>
-                  <p><strong>Data Protection Officer:</strong> For privacy inquiries, contact us at privacy@omnika.ro</p>
+                  <p><strong>Data Protection Officer:</strong> For privacy inquiries, contact us at privacy@omnika.com</p>
                   <p><strong>Your Rights:</strong> You have the right to access, rectify, erase, and restrict processing of your personal data under GDPR.</p>
                 </div>
               </section>
@@ -164,8 +164,8 @@ export default function TermsPage() {
               <section id="contact">
                 <h3 className="text-xl font-semibold text-white mb-4">11. Contact Information</h3>
                 <div className="bg-dark-700 p-4 rounded-lg">
-                  <p><strong>For General Inquiries:</strong> support@omnika.ro</p>
-                  <p><strong>For Privacy Matters:</strong> privacy@omnika.ro</p>
+                          <p><strong>For General Inquiries:</strong> support@omnika.com</p>
+        <p><strong>For Privacy Matters:</strong> privacy@omnika.com</p>
                   <p><strong>Phone:</strong> +40 (31) 630-12-34</p>
                   <p><strong>Address:</strong> București, Sectorul 2, Sos. Mihai Bravu, Nr. 136, Bloc D20, Scara 2, Etaj 3, Apartament 39, România</p>
                 </div>

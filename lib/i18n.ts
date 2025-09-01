@@ -147,7 +147,7 @@ export const translations = {
       description: 'Premium auto parts for European cars',
       address: 'București, Sectorul 2, Sos. Mihai Bravu, Nr. 136, Bloc D20, Scara 2, Etaj 3, Apartament 39, România',
       phone: '+40 (31) 630-12-34',
-      email: 'support@omnika.ro',
+              email: 'support@omnika.com',
       terms: 'Terms & Conditions',
       privacy: 'Privacy Policy',
       copyright: '© 2025 OMNIKA S.R.L. All rights reserved.'
@@ -371,7 +371,7 @@ export const translations = {
       description: 'Piese auto premium pentru mașini europene',
       address: 'București, Sectorul 2, Sos. Mihai Bravu, Nr. 136, Bloc D20, Scara 2, Etaj 3, Apartament 39, România',
       phone: '+40 (31) 630-12-34',
-      email: 'support@omnika.ro',
+              email: 'support@omnika.com',
       terms: 'Termeni & Condiții',
       privacy: 'Politica de Confidențialitate',
       copyright: '© 2025 OMNIKA S.R.L. Toate drepturile rezervate.'

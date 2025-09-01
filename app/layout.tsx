@@ -10,6 +10,9 @@ export const metadata: Metadata = {
   title: 'OMNIKA S.R.L. - Premium Auto Parts',
   description: 'Premium Auto Parts for Every European Brand',
   keywords: 'auto parts, car parts, automotive, OMNIKA, Romania',
+  other: {
+    'yandex-verification': '7f9d6fa48e19f7ce',
+  },
 }
 
 export default function RootLayout({

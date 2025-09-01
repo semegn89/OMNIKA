@@ -144,10 +144,10 @@ export default function ContactsPage() {
                   <div>
                     <h3 className="text-white font-semibold mb-2">{t('contacts.email')}</h3>
                     <a 
-                      href="mailto:support@omnika.ro" 
+                      href="mailto:support@omnika.com" 
                       className="text-neon-blue hover:text-neon-green transition-colors"
                     >
-                      support@omnika.ro
+                      support@omnika.com
                     </a>
                   </div>
                 </div>

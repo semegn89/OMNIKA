@@ -79,9 +79,9 @@ export default function PrivacyPage() {
                   <p><strong>Company Name:</strong> OMNIKA S.R.L.</p>
                   <p><strong>CUI:</strong> RO12345678</p>
                   <p><strong>Address:</strong> București, Sectorul 2, Sos. Mihai Bravu, Nr. 136, Bloc D20, Scara 2, Etaj 3, Apartament 39, România</p>
-                  <p><strong>Email:</strong> privacy@omnika.ro</p>
+                  <p><strong>Email:</strong> privacy@omnika.com</p>
                   <p><strong>Phone:</strong> +40 (31) 630-12-34</p>
-                  <p><strong>Data Protection Officer:</strong> privacy@omnika.ro</p>
+                  <p><strong>Data Protection Officer:</strong> privacy@omnika.com</p>
                 </div>
                 <p>OMNIKA S.R.L. is the data controller responsible for the processing of your personal data in accordance with GDPR and Romanian data protection laws.</p>
               </section>
@@ -296,7 +296,7 @@ export default function PrivacyPage() {
                 
                 <div className="mt-4 bg-green-900/20 border border-green-600/30 p-4 rounded-lg">
                   <p className="text-green-400 font-medium mb-2">Exercise Your Rights</p>
-                  <p className="text-sm">To exercise any of these rights, contact us at privacy@omnika.ro. We will respond within 30 days.</p>
+                  <p className="text-sm">To exercise any of these rights, contact us at privacy@omnika.com. We will respond within 30 days.</p>
                 </div>
               </section>
 
@@ -336,8 +336,8 @@ export default function PrivacyPage() {
               <section id="contact">
                 <h3 className="text-xl font-semibold text-white mb-4">11. Contact Us</h3>
                 <div className="bg-dark-700 p-4 rounded-lg">
-                  <p><strong>For Privacy Inquiries:</strong> privacy@omnika.ro</p>
-                  <p><strong>For General Support:</strong> support@omnika.ro</p>
+                          <p><strong>For Privacy Inquiries:</strong> privacy@omnika.com</p>
+        <p><strong>For General Support:</strong> support@omnika.com</p>
                   <p><strong>Phone:</strong> +40 (31) 630-12-34</p>
                   <p><strong>Address:</strong> București, Sectorul 2, Sos. Mihai Bravu, Nr. 136, Bloc D20, Scara 2, Etaj 3, Apartament 39, România</p>
                 </div>
