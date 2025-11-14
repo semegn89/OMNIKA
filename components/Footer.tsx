@@ -41,7 +41,7 @@ export default function Footer() {
               <div className="flex items-center space-x-3">
                 <Mail size={20} className="text-neon-blue" />
                 <a 
-                  href="mailto:support@omnika.com" 
+                  href="mailto:support@omnikaparts.com" 
                   className="text-gray-300 text-sm hover:text-neon-blue transition-colors"
                 >
                   {t('footer.email')}
